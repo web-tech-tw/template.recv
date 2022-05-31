@@ -7,12 +7,14 @@ function _general(app, callback) {
 }
 
 function _secure(app, callback) {
-    app.use((req, res, next) => {
-        if (req.protocol === 'http') {
-            res.redirect(301, `https://${req.headers.host}${req.url}`);
-        }
-        next();
-    });
+    if (process.env.HTTPS_REDIRECT === 'yes') {
+        app.use((req, res, next) => {
+            if (req.protocol === 'http') {
+                res.redirect(301, `https://${req.headers.host}${req.url}`);
+            }
+            next();
+        });
+    }
 
     const credentials = {
         key: fs.readFileSync(process.env.HTTPS_KEY_PATH),
@@ -24,6 +26,8 @@ function _secure(app, callback) {
 
     server.listen(parseInt(process.env.HTTP_PORT), process.env.HTTP_HOSTNAME);
     httpsServer.listen(parseInt(process.env.HTTPS_PORT), process.env.HTTP_HOSTNAME);
+
+    callback();
 }
 
 module.exports = function (app, callback) {
