@@ -14,7 +14,6 @@ const
         jwt_secret: require('./src/init/jwt_secret')
     },
     util = {
-        email: require('./src/utils/mail'),
         token: require('./src/utils/token'),
         ip_address: require('./src/utils/ip_address')
     },
