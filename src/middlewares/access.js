@@ -1,4 +1,4 @@
-const { StatusCodes } = require('http-status-codes');
+const {StatusCodes} = require('http-status-codes');
 
 module.exports = (role) => (req, res, next) => {
     const user_roles = req?.authenticated?.user?.roles;

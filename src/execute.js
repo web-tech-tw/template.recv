@@ -4,8 +4,9 @@ const https = require('https');
 
 function _general(app, callback) {
     const httpServer = http.createServer(app);
-    httpServer.listen(parseInt(process.env.HTTP_PORT), process.env.HTTP_HOSTNAME);
-    callback();
+    const port = parseInt(process.env.HTTP_PORT);
+    httpServer.listen(port, process.env.HTTP_HOSTNAME);
+    callback({type: 'general', hostname: process.env.HTTP_HOSTNAME, port});
 }
 
 function _secure(app, callback) {
@@ -24,8 +25,9 @@ function _secure(app, callback) {
     }
 
     const httpsServer = https.createServer(credentials, app);
-    httpsServer.listen(parseInt(process.env.HTTPS_PORT), process.env.HTTP_HOSTNAME);
-    callback();
+    const port = parseInt(process.env.HTTPS_PORT);
+    httpsServer.listen(port, process.env.HTTP_HOSTNAME);
+    callback({type: 'secure', hostname: process.env.HTTP_HOSTNAME, port});
 }
 
 module.exports = function (app, callback) {
