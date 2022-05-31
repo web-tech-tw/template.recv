@@ -33,7 +33,7 @@ app.get('/ip', (req, res) => {
     res.send({ip_address: util.ip_address(req)});
 });
 
-app.listen(process.env.HTTP_PORT, process.env.HTTP_HOSTNAME, () => {
+require('./src/execute')(app, () => {
     console.log(constant.APP_NAME)
     console.log('====')
     console.log('Application is listening at')
