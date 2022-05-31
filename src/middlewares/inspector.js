@@ -1,3 +1,5 @@
+"use strict";
+
 const {StatusCodes} = require("http-status-codes");
 const {validationResult} = require('express-validator');
 
