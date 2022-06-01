@@ -29,6 +29,8 @@ app.get('/', (_, res) => {
     res.redirect(StatusCodes.MOVED_PERMANENTLY, process.env.WEBSITE_URL);
 });
 
+app.get('/robots.txt', (_, res) => res.type('txt').send("User-agent: *\nDisallow: /"));
+
 app.get('/ip', (req, res) => {
     res.send({ip_address: util.ip_address(req)});
 });
