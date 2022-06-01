@@ -11,8 +11,8 @@ const {sha256} = require('js-sha256');
 const general_validate_options = (metadata) => ({
     algorithms: ["HS256"],
     audience: process.env.SARA_AUDIENCE,
-    complete: true,
-    issuer: process.env.SARA_ISSUER || sha256(metadata.ctx.jwt_secret)
+    issuer: process.env.SARA_ISSUER || sha256(metadata.ctx.jwt_secret),
+    complete: true
 });
 
 // Validate Function (Auth)
