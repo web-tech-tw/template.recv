@@ -1,5 +1,5 @@
 "use strict";
-// Validate the auth_token from Sara.
+// Token utils of Sara.
 
 // Import jsonwebtoken
 const jwt = require('jsonwebtoken');

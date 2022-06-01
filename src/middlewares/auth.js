@@ -1,5 +1,5 @@
 "use strict";
-// Validate the auth_token, but it will not interrupt the request.
+// Validate "Authorization" header, but it will not interrupt the request.
 // To interrupt the request which without the request, please use "access.js" middleware.
 
 // Import auth_methods
