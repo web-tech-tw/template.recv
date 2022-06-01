@@ -1,8 +1,10 @@
 "use strict";
 
-const fs = require('fs');
-const http = require('http');
-const https = require('https');
+// Import modules
+const
+    fs = require('fs'),
+    http = require('http'),
+    https = require('https');
 
 // Setup http protocol (general)
 function _general(app, callback) {

@@ -14,7 +14,7 @@ const
         jwt_secret: require('./src/init/jwt_secret')
     },
     util = {
-        token: require('./src/utils/token'),
+        sara_token: require('./src/utils/sara_token'),
         ip_address: require('./src/utils/ip_address')
     },
     middleware = {
