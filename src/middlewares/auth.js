@@ -2,13 +2,13 @@
 // Validate the auth_token, but it will not interrupt the request.
 // To interrupt the request which without the request, please use "access.js" middleware.
 
-// Import validateAuthToken
+// Import auth_methods
 const auth_methods = {
-    "SARA": require('../utils/sara_token').validateAuthToken
+    "SARA": (ctx, req, _) => require('../utils/sara_token').validateAuthToken(ctx, req.auth_secret)
 };
 
 // Export (function)
-module.exports = (ctx) => function (req, _, next) {
+module.exports = (ctx) => function (req, res, next) {
     const auth_code = req.header('Authorization');
     if (!auth_code) {
         next();
@@ -20,9 +20,12 @@ module.exports = (ctx) => function (req, _, next) {
         return;
     }
     req.auth_method = params[0];
-    if (req.auth_method in auth_methods) {
-        const method_function = auth_methods[req.auth_method];
-        req.authenticated = method_function(ctx, params[1]);
+    req.auth_secret = params[1];
+    if (!(req.auth_method in auth_methods)) {
+        next();
+        return;
     }
-    next();
+    auth_methods[req.auth_method](ctx, req, res)
+        .then(() => next())
+        .catch((error) => console.error(error));
 };
