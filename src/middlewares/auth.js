@@ -4,7 +4,7 @@
 
 // Import auth_methods
 const auth_methods = {
-    "SARA": (ctx, req, _) => require('../utils/sara_token').validateAuthToken(ctx, req.auth_secret)
+    "SARA": async (ctx, req, _) => require('../utils/sara_token').validateAuthToken(ctx, req.auth_secret)
 };
 
 // Export (function)
