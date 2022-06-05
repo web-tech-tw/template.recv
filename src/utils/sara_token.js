@@ -4,10 +4,10 @@
 // Import jsonwebtoken
 const jwt = require('jsonwebtoken');
 
-// Import SHA256 Generator
+// Import SHA256 generator
 const {sha256} = require('js-sha256');
 
-// Define general_validate_options Generator
+// Define general_validate_options generator
 const general_validate_options = (metadata) => ({
     algorithms: ["HS256"],
     audience: process.env.SARA_AUDIENCE,
@@ -15,7 +15,7 @@ const general_validate_options = (metadata) => ({
     complete: true
 });
 
-// Validate Function (Auth)
+// Validate function (Auth)
 function validateAuthToken(ctx, token) {
     try {
         const validate_options = general_validate_options({ctx});

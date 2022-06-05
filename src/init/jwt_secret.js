@@ -24,7 +24,7 @@ try {
     }
 }
 
-// Length Check
+// Length check
 if (jwt_secret.length < 2048) {
     throw `JWT secret is NOT SAFE, please generate one with "${generate_command}"`
 }

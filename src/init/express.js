@@ -6,17 +6,17 @@ const express = require('express');
 
 // Export (function)
 module.exports = (ctx) => {
-    // Initialize App Engine
+    // Initialize app engine
     const app = express();
 
-    // General Middlewares
+    // General middlewares
     app.use(require('request-ip').mw());
     app.use(require('../middlewares/auth')(ctx));
 
-    // Request Body Parser
+    // Request body parser
     app.use(express.urlencoded({extended: true}));
 
-    // Optional Middlewares
+    // Optional middlewares
     if (process.env.HTTPS_REDIRECT === 'yes') {
         app.use(require('../middlewares/https_redirect'));
     }
@@ -25,6 +25,6 @@ module.exports = (ctx) => {
         app.use(cors({origin: process.env.WEBSITE_URL}));
     }
 
-    // Return App Engine
+    // Return app engine
     return app;
 };

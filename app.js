@@ -7,7 +7,7 @@ require('dotenv').config();
 const
     {StatusCodes} = require('http-status-codes');
 
-// Import Modules
+// Import modules
 const
     constant = require('./src/init/const'),
     ctx = {
@@ -26,7 +26,7 @@ const
         validator: require('express-validator')
     };
 
-// Initialize Application
+// Initialize application
 const app = require('./src/init/express')(ctx);
 
 // Redirect / to WEBSITE_URL
