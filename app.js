@@ -31,11 +31,23 @@ app.get('/', (_, res) => {
 
 app.get('/robots.txt', (_, res) => res.type('txt').send("User-agent: *\nDisallow: /"));
 
-app.get('/ip', (req, res) => {
+app.get('/example-ip', (req, res) => {
     res.send({ip_address: util.ip_address(req)});
 });
 
-console.log(`${constant.APP_NAME} (runtime: ${process.env.RUNTIME_ENV || "native"})\n====`);
+app.get('/example-empty', middleware.validator.query('empty').isEmpty(), middleware.inspector, (_, res) => {
+    res.send('200 Success<br />(Field \"empty\" in query should be empty, or it will send error \"400 Bad Request\".)');
+});
+
+app.get('/example-admin', middleware.access('root'), (_, res) => {
+    res.send('Hello, Admin!');
+});
+
+console.log(
+    constant.APP_NAME,
+    `(runtime: ${process.env.NODE_ENV}, ${process.env.RUNTIME_ENV || "native"})`,
+    '\n===='
+);
 require('./src/execute')(app, ({type, hostname, port}) => {
     const protocol = type === 'general' ? 'http' : 'https';
     console.log(`Protocol "${protocol}" is listening at`);
