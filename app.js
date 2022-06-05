@@ -4,8 +4,7 @@
 require('dotenv').config();
 
 // Import StatusCodes
-const
-    {StatusCodes} = require('http-status-codes');
+const {StatusCodes} = require('http-status-codes');
 
 // Import modules
 const
