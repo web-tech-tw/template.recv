@@ -17,16 +17,15 @@ let jwt_secret;
 try {
     jwt_secret = fs.readFileSync(constant.SECRET_FILENAME).toString();
 } catch (e) {
-    if (e.code === 'ENOENT') {
-        throw `JWT secret is NOT EXISTS, please generate one with "${generate_command}"`
-    } else {
-        console.log(e)
+    if (e.code !== 'ENOENT') {
+        throw e;
     }
+    throw `JWT secret is NOT EXISTS, please generate one with "${generate_command}"`;
 }
 
 // Check length
 if (jwt_secret.length < 2048) {
-    throw `JWT secret is NOT SAFE, please generate one with "${generate_command}"`
+    throw `JWT secret is NOT SAFE, please generate one with "${generate_command}"`;
 }
 
 // Export jwt_secret (string)
