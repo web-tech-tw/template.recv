@@ -15,7 +15,7 @@ const secret = Buffer.from(bytes).toString('base64');
 // Write the secret file
 try {
     fs.writeFileSync(constant.SECRET_FILENAME, secret);
-    console.log(`The secret has been saved into "${constant.SECRET_FILENAME}".`)
+    console.log(`The secret has been saved into "${constant.SECRET_FILENAME}".`);
 } catch (e) {
-    console.error(e)
+    console.error(e);
 }

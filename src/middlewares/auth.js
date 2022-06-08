@@ -2,6 +2,9 @@
 // Validate "Authorization" header, but it will not interrupt the request.
 // To interrupt the request which without the request, please use "access.js" middleware.
 
+// Import StatusCodes
+const {StatusCodes} = require('http-status-codes');
+
 // Import auth_methods
 const auth_methods = {
     "SARA": async (ctx, req, _) => require('../utils/sara_token').validateAuthToken(ctx, req.auth_secret)
@@ -32,5 +35,8 @@ module.exports = (ctx) => function (req, res, next) {
             }
             next();
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+            res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+            console.error(error);
+        });
 };
