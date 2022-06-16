@@ -1,8 +1,9 @@
 "use strict";
-// Check the role for the request required, and interrupt if the requirement is not satisfied.
+// Check the role for the request required,
+// and interrupt if the requirement is not satisfied.
 
 // Import StatusCodes
-const {StatusCodes} = require('http-status-codes');
+const {StatusCodes} = require("http-status-codes");
 
 // Export (function)
 // role can be string or null

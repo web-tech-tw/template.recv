@@ -1,18 +1,21 @@
 "use strict";
 // Validate "Authorization" header, but it will not interrupt the request.
-// To interrupt the request which without the request, please use "access.js" middleware.
+
+// To interrupt the request which without the request,
+// please use "access.js" middleware.
 
 // Import StatusCodes
-const {StatusCodes} = require('http-status-codes');
+const {StatusCodes} = require("http-status-codes");
 
 // Import auth_methods
 const auth_methods = {
-    "SARA": async (ctx, req, _) => require('../utils/sara_token').validateAuthToken(ctx, req.auth_secret)
+    "SARA": async (ctx, req, _) =>
+        require("../utils/sara_token").validateAuthToken(ctx, req.auth_secret),
 };
 
 // Export (function)
-module.exports = (ctx) => function (req, res, next) {
-    const auth_code = req.header('Authorization');
+module.exports = (ctx) => function(req, res, next) {
+    const auth_code = req.header("Authorization");
     if (!auth_code) {
         next();
         return;

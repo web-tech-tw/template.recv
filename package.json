@@ -10,7 +10,9 @@
     "dev-database-ui": "docker run --network=host --rm -e ME_CONFIG_MONGODB_SERVER=localhost mongo-express",
     "dev-database": "docker run --network=host --rm mongo",
     "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "lint": "eslint \"app.js\" \"new_secret.js\" \"src/**/*.js\"",
+    "lint:fix": "eslint \"app.js\" \"new_secret.js\" \"src/**/*.js\" --fix"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -25,6 +27,8 @@
     "request-ip": "^2.1.3"
   },
   "devDependencies": {
+    "eslint": "^8.17.0",
+    "eslint-config-google": "^0.14.0",
     "nodemon": "^2.0.13"
   }
 }

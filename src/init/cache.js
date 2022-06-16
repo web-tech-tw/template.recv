@@ -2,7 +2,7 @@
 // node-cache is an in-memory cache.
 
 // Import node-cache
-const node_cache = require('node-cache');
+const NodeCache = require("node-cache");
 
 // Initialize node-cache, and export (instance)
-module.exports = new node_cache({stdTTL: 100});
+module.exports = new NodeCache({stdTTL: 100});
