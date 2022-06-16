@@ -7,8 +7,7 @@ require("dotenv").config();
 const {StatusCodes} = require("http-status-codes");
 
 // Import modules
-const
-    constant = require("./src/init/const");
+const constant = require("./src/init/const");
 const ctx = {
     now: () => Math.floor(new Date().getTime() / 1000),
     cache: require("./src/init/cache"),
