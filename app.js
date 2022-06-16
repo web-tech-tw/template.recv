@@ -67,11 +67,11 @@ app.get("/example-admin", middleware.access("root"), (_, res) => {
 
 // Show status message
 (() => {
-    const node_env = process.env.NODE_ENV;
-    const runtime_env = process.env.RUNTIME_ENV || "native";
+    const nodeEnv = process.env.NODE_ENV;
+    const runtimeEnv = process.env.RUNTIME_ENV || "native";
     console.log(
         constant.APP_NAME,
-        `(runtime: ${node_env}, ${runtime_env})`,
+        `(runtime: ${nodeEnv}, ${runtimeEnv})`,
         "\n====",
     );
 })();

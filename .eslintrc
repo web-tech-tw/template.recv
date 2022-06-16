@@ -5,7 +5,6 @@
   ],
   "rules": {
     "linebreak-style": 1,
-    "camelcase": "off",
     "indent": [
       "error",
       4

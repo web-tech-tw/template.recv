@@ -10,12 +10,12 @@ const {StatusCodes} = require("http-status-codes");
 // set as string, it will find the role whether satisfied
 // set as null, will check the user whether login only
 module.exports = (role) => (req, res, next) => {
-    const user_roles = req?.authenticated?.user?.roles;
-    if (!(user_roles && Array.isArray(user_roles))) {
+    const userRoles = req?.authenticated?.user?.roles;
+    if (!(userRoles && Array.isArray(userRoles))) {
         res.sendStatus(StatusCodes.UNAUTHORIZED);
         return;
     }
-    if (role && !user_roles.includes(role)) {
+    if (role && !userRoles.includes(role)) {
         res.sendStatus(StatusCodes.FORBIDDEN);
         return;
     }

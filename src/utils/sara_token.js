@@ -7,8 +7,8 @@ const jwt = require("jsonwebtoken");
 // Import SHA256 generator
 const {sha256} = require("js-sha256");
 
-// Define general_validate_options generator
-const general_validate_options = (metadata) => ({
+// Define generalValidateOptions generator
+const generalValidateOptions = (metadata) => ({
     algorithms: ["HS256"],
     audience: process.env.SARA_AUDIENCE,
     issuer: process.env.SARA_ISSUER || sha256(metadata.ctx.jwt_secret),
@@ -23,8 +23,8 @@ const general_validate_options = (metadata) => ({
  */
 function validateAuthToken(ctx, token) {
     try {
-        const validate_options = general_validate_options({ctx});
-        const data = jwt.verify(token, ctx.jwt_secret, validate_options, null);
+        const validateOptions = generalValidateOptions({ctx});
+        const data = jwt.verify(token, ctx.jwt_secret, validateOptions, null);
         if (
             data?.header?.sara?.version !== 1 ||
             data?.header?.sara?.type !== "auth"
