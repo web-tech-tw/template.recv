@@ -14,7 +14,7 @@ const authMethods = {
 };
 
 // Export (function)
-module.exports = (ctx) => function(req, res, next) {
+module.exports = (ctx) => function (req, res, next) {
     const authCode = req.header("Authorization");
     if (!authCode) {
         next();
@@ -39,6 +39,14 @@ module.exports = (ctx) => function(req, res, next) {
         .then((result) => {
             if (!req.auth.metadata) {
                 req.auth.metadata = result;
+            }
+            if (!req.auth.id) {
+                req.auth.id =
+                    result?.id ||
+                    result?.sub ||
+                    result?.user?.id ||
+                    result?.data?.id ||
+                    null;
             }
             next();
         })
