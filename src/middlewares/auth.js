@@ -46,6 +46,8 @@ module.exports = (ctx) => function (req, res, next) {
                     result?.sub ||
                     result?.user?.id ||
                     result?.data?.id ||
+                    result?.user?._id ||
+                    result?.data?._id ||
                     null;
             }
             next();
