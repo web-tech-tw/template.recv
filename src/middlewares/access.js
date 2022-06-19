@@ -13,17 +13,18 @@ const {StatusCodes} = require("http-status-codes");
 module.exports = (role) => (req, res, next) => {
     // Check auth exists
     if (!req.auth) {
-        throw Error(
-            "req.auth is unset, " +
-            "please add middleware \"auth\" before \"access\".",
-        );
+        res.sendStatus(StatusCodes.UNAUTHORIZED);
+        return;
     }
     // Accept SARA only
-    if (req.auth.method !== "SARA") return;
+    if (req.auth.method !== "SARA") {
+        res.sendStatus(StatusCodes.METHOD_NOT_ALLOWED);
+        return;
+    }
     // Read roles from metadata
     const userRoles = req.auth.metadata?.user?.roles;
     if (!(userRoles && Array.isArray(userRoles))) {
-        res.sendStatus(StatusCodes.UNAUTHORIZED);
+        res.sendStatus(StatusCodes.BAD_REQUEST);
         return;
     }
     // Check permission
