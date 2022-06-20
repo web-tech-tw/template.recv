@@ -12,7 +12,7 @@ const {StatusCodes} = require("http-status-codes");
 // set as null, will check the user whether login only
 module.exports = (role) => (req, res, next) => {
     // Check auth exists
-    if (!req.auth) {
+    if (!(req.auth && req.auth.id)) {
         res.sendStatus(StatusCodes.UNAUTHORIZED);
         return;
     }
