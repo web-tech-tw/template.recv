@@ -17,8 +17,8 @@ const generalValidateOptions = (metadata) => ({
 
 /**
  * Validate function (Auth)
- * @param {object} ctx - The context variable from app.js
- * @param {string} token - The token to valid
+ * @param {object} ctx - The context variable from app.js.
+ * @param {string} token - The token to valid.
  * @return {boolean|object}
  */
 function validateAuthToken(ctx, token) {
