@@ -21,6 +21,9 @@ module.exports = (ctx) => {
         app.use(require("../middlewares/https_redirect"));
     }
     if (process.env.HTTP_CORS === "yes") {
+        // Check header "Origin"
+        app.use(require("../middlewares/cors_origin"));
+        // Do CORS handler
         const cors = require("cors");
         app.use(cors({origin: process.env.WEBSITE_URL}));
     }
