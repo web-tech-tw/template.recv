@@ -6,7 +6,7 @@
 const {StatusCodes} = require("http-status-codes");
 
 // Export (function)
-module.export = (req, res, next) => {
+module.exports = (req, res, next) => {
     const originUrl = req.header('Origin');
     if (originUrl !== process.env.WEBSITE_URL) {
         res.sendStatus(StatusCodes.FORBIDDEN);
