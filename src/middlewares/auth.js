@@ -14,7 +14,7 @@ const authMethods = {
 };
 
 // Export (function)
-module.exports = (ctx) => function (req, res, next) {
+module.exports = (ctx) => function(req, res, next) {
     const authCode = req.header("Authorization");
     if (!authCode) {
         next();

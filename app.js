@@ -69,7 +69,7 @@ app.get("/example-admin", middleware.access("root"), (_, res) => {
 (() => {
     const nodeEnv = process.env.NODE_ENV;
     const runtimeEnv = process.env.RUNTIME_ENV || "native";
-    console.log(
+    console.info(
         constant.APP_NAME,
         `(runtime: ${nodeEnv}, ${runtimeEnv})`,
         "\n====",
@@ -78,6 +78,6 @@ app.get("/example-admin", middleware.access("root"), (_, res) => {
 // Mount application and execute it
 require("./src/execute")(app, ({type, hostname, port}) => {
     const protocol = type === "general" ? "http" : "https";
-    console.log(`Protocol "${protocol}" is listening at`);
-    console.log(`${protocol}://${hostname}:${port}`);
+    console.info(`Protocol "${protocol}" is listening at`);
+    console.info(`${protocol}://${hostname}:${port}`);
 });
