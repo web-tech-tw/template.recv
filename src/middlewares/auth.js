@@ -9,6 +9,8 @@ const {StatusCodes} = require("http-status-codes");
 
 // Import authMethods
 const authMethods = {
+    "TEST": async (ctx, req, _) =>
+        require("../utils/test_token").validateAuthToken(ctx, req.auth.secret),
     "SARA": async (ctx, req, _) =>
         require("../utils/sara_token").validateAuthToken(ctx, req.auth.secret),
 };
@@ -37,6 +39,9 @@ module.exports = (ctx) => function(req, res, next) {
     }
     authMethods[req.auth.method](ctx, req, res)
         .then((result) => {
+            if (res.aborted) {
+                return;
+            }
             if (!req.auth.metadata) {
                 req.auth.metadata = result;
             }
