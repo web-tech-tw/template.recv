@@ -42,10 +42,10 @@ module.exports = (ctx) => function(req, res, next) {
             if (res.aborted) {
                 return;
             }
-            if (!req.auth.metadata) {
+            if (result && !req.auth.metadata) {
                 req.auth.metadata = result;
             }
-            if (!req.auth.id) {
+            if (result && !req.auth.id) {
                 req.auth.id =
                     result?.id ||
                     result?.sub ||
