@@ -15,11 +15,8 @@ const DEFAULT_FAKE_USER = {
  * @return {string}
  */
 function issueAuthToken(ctx, user) {
-    if (
-        !ctx.testing &&
-        process.env.NODE_ENV !== "production"
-    ) {
-        throw new Error("Not allowed in production.");
+    if (!ctx.testing && process.env.NODE_ENV === "production") {
+        throw new Error("issueAuthToken is not allowed in production");
     }
     user = user || DEFAULT_FAKE_USER;
     return Buffer
