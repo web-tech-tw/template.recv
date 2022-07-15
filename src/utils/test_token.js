@@ -1,8 +1,31 @@
 "use strict";
 // Token utils for testing/debugging or developing.
 
-// Import SHA256 generator
-const {sha256} = require("js-sha256");
+const DEFAULT_FAKE_USER = {
+    id: "fake_user",
+    nickname: "OpenChat Fake User",
+    email: "openchat-fake@web-tech.github.io",
+    roles: [],
+};
+
+/**
+ * Issue function (Auth)
+ * @param {object} ctx - The context variable from app.js.
+ * @param {string} [user] - The user to generate the token for.
+ * @return {string}
+ */
+function issueAuthToken(ctx, user) {
+    if (
+        !ctx.testing &&
+        process.env.NODE_ENV !== "production"
+    ) {
+        throw new Error("Not allowed in production.");
+    }
+    user = user || DEFAULT_FAKE_USER;
+    return Buffer
+        .from(JSON.stringify(user), "utf-8")
+        .toString("base64");
+}
 
 /**
  * Validate function (Auth)
@@ -12,24 +35,23 @@ const {sha256} = require("js-sha256");
  */
 function validateAuthToken(ctx, token) {
     if (
-        process.env.NODE_ENV === "production" ||
-        sha256(ctx.jwt_secret) !== token
+        !ctx.testing &&
+        process.env.NODE_ENV !== "production"
     ) {
         return false;
     }
 
     return {
-        id: "test",
-        metadata: {
-            user: {
-                id: "test",
-                name: "Test User",
-            },
-        },
+        user: JSON.parse(
+            Buffer
+                .from(token, "base64")
+                .toString("utf-8"),
+        ),
     };
 }
 
 // Export (object)
 module.exports = {
+    issueAuthToken,
     validateAuthToken,
 };
