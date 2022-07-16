@@ -9,20 +9,20 @@ module.exports = (ctx) => {
     // Initialize app engine
     const app = express();
 
-    // General middlewares
+    // General middleware
     app.use(require("request-ip").mw());
-    app.use(require("../middlewares/auth")(ctx));
+    app.use(require("../middleware/auth")(ctx));
 
     // Request body parser
     app.use(express.urlencoded({extended: true}));
 
-    // Optional middlewares
+    // Optional middleware
     if (process.env.HTTPS_REDIRECT === "yes") {
-        app.use(require("../middlewares/https_redirect"));
+        app.use(require("../middleware/https_redirect"));
     }
     if (process.env.HTTP_CORS === "yes") {
         // Check header "Origin"
-        app.use(require("../middlewares/cors_origin"));
+        app.use(require("../middleware/cors_origin"));
         // Do CORS handler
         const cors = require("cors");
         app.use(cors({origin: process.env.WEBSITE_URL}));

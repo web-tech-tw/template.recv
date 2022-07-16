@@ -19,8 +19,8 @@ const util = {
     ip_address: require("./src/utils/ip_address"),
 };
 const middleware = {
-    access: require("./src/middlewares/access"),
-    inspector: require("./src/middlewares/inspector"),
+    access: require("./src/middleware/access"),
+    inspector: require("./src/middleware/inspector"),
     validator: require("express-validator"),
 };
 
