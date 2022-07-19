@@ -17,12 +17,15 @@ module.exports = (ctx) => {
     app.use(express.urlencoded({extended: true}));
 
     // Optional middleware
+    if (process.env.IS_PUBLIC !== "yes") {
+        // Check header "Origin"
+        app.use(require("../middleware/origin"));
+    }
     if (process.env.HTTPS_REDIRECT === "yes") {
+        // Do https redirects
         app.use(require("../middleware/https_redirect"));
     }
     if (process.env.HTTP_CORS === "yes") {
-        // Check header "Origin"
-        app.use(require("../middleware/cors_origin"));
         // Do CORS handler
         const cors = require("cors");
         app.use(cors({origin: process.env.WEBSITE_URL}));
