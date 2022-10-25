@@ -1,28 +1,35 @@
 "use strict";
 
 // Load configs from .env
-require("dotenv").config();
+(() => {
+    const {existsSync} = require("fs");
+    const {join: pathJoin} = require("path");
+    const dotenvPath = pathJoin(__dirname, ".env");
+    if (!existsSync(dotenvPath) && !process.env.APP_CONFIGURED) {
+        throw new Error(".env not exists");
+    }
+    require("dotenv").config();
+})();
 
 // Import StatusCodes
 const {StatusCodes} = require("http-status-codes");
 
-// Import modules
-const constant = require("./src/init/const");
+// Create context storage
 const ctx = {
     now: () => Math.floor(new Date().getTime() / 1000),
     cache: require("./src/init/cache"),
     database: require("./src/init/database"),
     jwt_secret: require("./src/init/jwt_secret"),
 };
-const util = {
-    sara_token: require("./src/utils/sara_token"),
-    ip_address: require("./src/utils/ip_address"),
-};
-const middleware = {
-    access: require("./src/middleware/access"),
-    inspector: require("./src/middleware/inspector"),
-    validator: require("express-validator"),
-};
+
+// Import modules
+const constant = require("./src/init/const");
+
+const utilIpAddress = require("./src/utils/ip_address");
+
+const middlewareAccess = require("./src/middleware/access");
+const middlewareInspector = require("./src/middleware/inspector");
+const middlewareValidator = require("express-validator");
 
 // Initialize application
 const app = require("./src/init/express")(ctx);
@@ -43,15 +50,15 @@ app.get("/example-now", (req, res) => {
     res.send({timestamp: ctx.now()});
 });
 
-// Example to show the visitor's IP with util.ip_address
+// Example to show the visitor's IP with utilIpAddress
 app.get("/example-ip", (req, res) => {
-    res.send({ip_address: util.ip_address(req)});
+    res.send({ip_address: utilIpAddress(req)});
 });
 
-// Example to check fields with middleware.validator
+// Example to check fields with middlewareValidator
 app.get("/example-empty",
-    middleware.validator.query("empty").isEmpty(),
-    middleware.inspector, (_, res) => {
+    middlewareValidator.query("empty").isEmpty(),
+    middlewareInspector, (_, res) => {
         res.send(
             "200 Success<br />" +
             "(Field \"empty\" in query should be empty, " +
@@ -60,8 +67,8 @@ app.get("/example-empty",
     },
 );
 
-// Example to check admin role with middleware.access
-app.get("/example-admin", middleware.access("root"), (_, res) => {
+// Example to check admin role with middlewareAccess
+app.get("/example-admin", middlewareAccess("root"), (_, res) => {
     res.send("Hello, Admin!");
 });
 
