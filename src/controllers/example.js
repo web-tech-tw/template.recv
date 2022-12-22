@@ -1,14 +1,13 @@
 "use strict";
 
-// Import external modules
+// Import modules
 const {Router: expressRouter} = require("express");
 
-// Import internal modules
-const utilIpAddress = require("./src/utils/ip_address");
+const utilIpAddress = require("../utils/ip_address");
 
-const middlewareAccess = require("./src/middleware/access");
-const middlewareInspector = require("./src/middleware/inspector");
 const middlewareValidator = require("express-validator");
+const middlewareAccess = require("../middleware/access");
+const middlewareInspector = require("../middleware/inspector");
 
 // Export routes mapper (function)
 module.exports = (ctx, r) => {
