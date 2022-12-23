@@ -7,6 +7,8 @@
 // Import StatusCodes
 const {StatusCodes} = require("http-status-codes");
 
+const {isObjectPropExists} = require("../utils/native");
+
 // Import authMethods
 const authMethods = {
     "TEST": async (ctx, req, _) =>
@@ -33,7 +35,7 @@ module.exports = (ctx) => function(req, res, next) {
         method: params[0],
         secret: params[1],
     };
-    if (!(req.auth.method in authMethods)) {
+    if (!isObjectPropExists(authMethods, req.auth.method)) {
         next();
         return;
     }

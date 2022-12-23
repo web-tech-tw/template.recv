@@ -11,7 +11,8 @@ const https = require("https");
  * @param {function} callback
  */
 function general(app, callback) {
-    const httpServer = http.createServer(app);
+    const options = {};
+    const httpServer = http.createServer(options, app);
     const port = parseInt(process.env.HTTP_PORT);
     httpServer.listen(port, process.env.HTTP_HOSTNAME);
     callback({type: "general", hostname: process.env.HTTP_HOSTNAME, port});
@@ -23,11 +24,11 @@ function general(app, callback) {
  * @param {function} callback
  */
 function secure(app, callback) {
-    const credentials = {
+    const options = {
         key: fs.readFileSync(process.env.HTTPS_KEY_PATH),
         cert: fs.readFileSync(process.env.HTTPS_CERT_PATH),
     };
-    const httpsServer = https.createServer(credentials, app);
+    const httpsServer = https.createServer(options, app);
     const port = parseInt(process.env.HTTPS_PORT);
     httpsServer.listen(port, process.env.HTTP_HOSTNAME);
     callback({type: "secure", hostname: process.env.HTTP_HOSTNAME, port});
