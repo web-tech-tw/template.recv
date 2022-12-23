@@ -13,10 +13,10 @@ function getPosixTimestamp() {
  * Shortcut for hasOwnProperty with safe.
  * @param {object} srcObject
  * @param {string} propName
- * @return {bool}
+ * @return {boolean}
  */
 function isObjectPropExists(srcObject, propName) {
-    return Object.prototype.hasOwnProperty.bind(srcObject, propName);
+    return Object.prototype.hasOwnProperty.call(srcObject, propName);
 }
 
 // Export (function)
