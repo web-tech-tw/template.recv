@@ -4,6 +4,7 @@
 const {Router: expressRouter} = require("express");
 
 const utilIpAddress = require("../utils/ip_address");
+const {getPosixTimestamp} = require("../utils/native");
 
 const middlewareValidator = require("express-validator");
 const middlewareAccess = require("../middleware/access");
@@ -13,9 +14,9 @@ const middlewareInspector = require("../middleware/inspector");
 module.exports = (ctx, r) => {
     const router = expressRouter();
 
-    // Example to show time with ctx.now
+    // Example to show time
     router.get("/now", (_, res) => {
-        res.send({timestamp: ctx.now()});
+        res.send({timestamp: getPosixTimestamp()});
     });
 
     // Example to show the visitor's IP with utilIpAddress
