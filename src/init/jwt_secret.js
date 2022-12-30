@@ -10,7 +10,7 @@ const constant = require("./const");
 // Detect the command for generate secret
 const generateCommand = process.env.RUNTIME_ENV === "container" ?
     "touch ./secret.key && " +
-    "docker run -v ./secret.key:/workplace/secret.key $APP_IMAGE_NAME " +
+    "docker run -v $PWD/secret.key:/workplace/secret.key $APP_IMAGE_NAME " +
     "npm run new-secret" :
     "npm run new-secret";
 
