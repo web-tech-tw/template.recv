@@ -7,8 +7,8 @@
   "main": "app.js",
   "scripts": {
     "new-secret": "node new_secret.js",
-    "dev-database-ui": "docker run --network=host --rm -e ME_CONFIG_MONGODB_SERVER=localhost mongo-express",
-    "dev-database": "docker run --network=host --rm mongo",
+    "dev-database-ui": "docker run -p 8081:8081 --rm --link recv-db:recv-db -e ME_CONFIG_MONGODB_SERVER=recv-db mongo-express",
+    "dev-database": "docker run -p 27017:27017 --rm --name=recv-db mongo",
     "dev": "nodemon app.js",
     "start": "node app.js",
     "lint": "eslint \"app.js\" \"new_secret.js\" \"src/**/*.js\"",
