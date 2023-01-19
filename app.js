@@ -23,7 +23,7 @@ const app = require("./src/init/express")(ctx);
 
 // Redirect / to WEBSITE_URL
 app.get("/", (_, res) => {
-    res.redirect(StatusCodes.MOVED_PERMANENTLY, process.env.WEBSITE_URL);
+    res.redirect(StatusCodes.MOVED_PERMANENTLY, config.get("WEBSITE_URL"));
 });
 
 // The handler for robots.txt (deny all friendly robots)

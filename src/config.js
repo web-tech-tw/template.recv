@@ -11,7 +11,7 @@ function runLoader() {
     const dotenvPath = pathJoin(__dirname, "..", ".env");
 
     const isDotEnvFileExists = existsSync(dotenvPath);
-    const isCustomDefined = process.env.APP_CONFIGURED === "1";
+    const isCustomDefined = get("APP_CONFIGURED") === "1";
 
     if (!isDotEnvFileExists && !isCustomDefined) {
         console.error(
@@ -31,7 +31,7 @@ function runLoader() {
  * @return {boolean} true if production
  */
 function isProduction() {
-    return process.env.NODE_ENV === "production";
+    return get("NODE_ENV") === "production";
 }
 
 /**
@@ -40,8 +40,8 @@ function isProduction() {
  */
 function getEnvironmentOverview() {
     return {
-        node: process.env.NODE_ENV || "development",
-        runtime: process.env.RUNTIME_ENV || "native",
+        node: getFallback("NODE_ENV", "development"),
+        runtime: getFallback("RUNTIME_ENV", "native"),
     };
 }
 
@@ -55,7 +55,7 @@ function get(key) {
 }
 
 /**
- * The get the vale from config with fallback.
+ * The get the value from config with fallback.
  * @param {string} key the key
  * @param {string} fallback the fallback value
  * @return {string} the excepted value
