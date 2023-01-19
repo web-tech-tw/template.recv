@@ -46,7 +46,7 @@ require("./src/controllers/index")(ctx, app);
     const {node, runtime} = getEnvironmentOverview();
     const statusMessage = `(environment: ${node}, ${runtime})`;
     console.info(appName, statusMessage, "\n====");
-});
+})();
 // Mount application and execute it
 require("./src/execute")(app, ({type, hostname, port}) => {
     const protocol = type === "general" ? "http" : "https";
