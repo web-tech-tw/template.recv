@@ -3,6 +3,9 @@
 // and interrupt if the requirement is not satisfied.
 // (for Sara only)
 
+// Import config
+const {getMust} = require("../config");
+
 // Import StatusCodes
 const {StatusCodes} = require("http-status-codes");
 
@@ -19,7 +22,7 @@ module.exports = (role) => (req, res, next) => {
     // Accept SARA or TEST only
     if (
         req.auth.method !== "SARA" &&
-        !(req.auth.method === "TEST" && process.env.NODE_ENV !== "production")
+        !(req.auth.method === "TEST" && getMust("NODE_ENV") !== "production")
     ) {
         res.sendStatus(StatusCodes.METHOD_NOT_ALLOWED);
         return;

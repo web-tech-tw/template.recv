@@ -31,7 +31,7 @@ function runLoader() {
  * @return {boolean} true if production
  */
 function isProduction() {
-    return get("NODE_ENV") === "production";
+    return getMust("NODE_ENV") === "production";
 }
 
 /**
@@ -55,7 +55,21 @@ function get(key) {
 }
 
 /**
- * The get the value from config with fallback.
+ * Get the value from config with error thrown.
+ * @param {string} key the key
+ * @return {string} the excepted value
+ * @throws {Error} if value is undefined, throw an error
+ */
+function getMust(key) {
+    const value = process.env[key];
+    if (value === undefined) {
+        throw new Error(`config key ${key} is undefined`);
+    }
+    return value;
+}
+
+/**
+ * Get the value from config with fallback.
  * @param {string} key the key
  * @param {string} fallback the fallback value
  * @return {string} the excepted value
@@ -69,5 +83,6 @@ module.exports = {
     isProduction,
     getEnvironmentOverview,
     get,
+    getMust,
     getFallback,
 };

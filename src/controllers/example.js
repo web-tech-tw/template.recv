@@ -1,5 +1,8 @@
 "use strict";
 
+// Import config
+const {getEnvironmentOverview} = require("../config");
+
 // Import modules
 const {Router: expressRouter} = require("express");
 
@@ -27,7 +30,7 @@ module.exports = (ctx, r) => {
     // Example to return the application environment
     router.get("/env",
         middlewareInspector, (_, res) => {
-            res.send(ctx.config.getEnvironmentOverview());
+            res.send(getEnvironmentOverview());
         },
     );
 

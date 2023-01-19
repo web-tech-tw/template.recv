@@ -1,6 +1,9 @@
 "use strict";
 // Token utils for testing/debugging or developing.
 
+// Import config
+const {isProduction} = require("../config");
+
 const DEFAULT_FAKE_USER = {
     id: "fake_user",
     nickname: "OpenChat Fake User",
@@ -15,7 +18,7 @@ const DEFAULT_FAKE_USER = {
  * @return {string}
  */
 function issueAuthToken(ctx, user) {
-    if (!ctx.testing || ctx.config.isProduction()) {
+    if (!ctx.testing || isProduction()) {
         throw new Error("issueAuthToken is not allowed in production");
     }
     user = user || DEFAULT_FAKE_USER;
@@ -31,7 +34,7 @@ function issueAuthToken(ctx, user) {
  * @return {boolean|object}
  */
 function validateAuthToken(ctx, token) {
-    if (!ctx.testing || ctx.config.isProduction()) {
+    if (!ctx.testing || isProduction()) {
         return false;
     }
 

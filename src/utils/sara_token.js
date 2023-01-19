@@ -1,22 +1,17 @@
 "use strict";
 // Token utils of Sara.
 
-// Import createHash from node:crypto
-const {createHash} = require("node:crypto");
+// Import config
+const {getMust} = require("../config");
 
 // Import jsonwebtoken
 const {verify} = require("jsonwebtoken");
 
-// Define SHA256 function
-const sha256 = (data) => (
-    createHash("sha256").update(data).digest("hex")
-);
-
 // Define generalValidateOptions generator
 const generalValidateOptions = (metadata) => ({
     algorithms: ["HS256"],
-    audience: process.env.SARA_AUDIENCE,
-    issuer: process.env.SARA_ISSUER || sha256(metadata.ctx.jwt_secret),
+    issuer: getMust("SARA_ISSUER"),
+    audience: getMust("SARA_AUDIENCE"),
     complete: true,
 });
 
