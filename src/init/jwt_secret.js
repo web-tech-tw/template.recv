@@ -2,7 +2,7 @@
 // Check the "secret.key" whether safe or not.
 
 // Import config
-const {getMust} = require("../config");
+const {get} = require("../config");
 
 // Import fs
 const fs = require("node:fs");
@@ -17,7 +17,7 @@ const generateCommandContainer = "touch ./secret.key && " +
     "npm run new-secret";
 
 // Detect the command for generate secret
-const isContainer = getMust("RUNTIME_ENV") === "container";
+const isContainer = get("RUNTIME_ENV") === "container";
 const generateCommand = !isContainer ?
     generateCommandNative :
     generateCommandContainer;
