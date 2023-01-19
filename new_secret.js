@@ -22,11 +22,10 @@ const sha256hex = (data) =>
 
 // Write the secret file
 try {
-    fs.writeFileSync(constant.SECRET_FILENAME, secret);
-    console.info(
-        `Secret Hash (sha256): ${sha256hex(secret)}`,
-        `The secret has been saved into "${constant.SECRET_FILENAME}".`,
-    );
+    const {SECRET_FILENAME: filename} = constant;
+    fs.writeFileSync(filename, secret);
+    console.info(`Secret Hash (sha256): ${sha256hex(secret)}`);
+    console.info(`The secret has been saved into "${filename}".`);
 } catch (e) {
     console.error(e);
 }
