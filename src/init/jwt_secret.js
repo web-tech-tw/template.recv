@@ -2,7 +2,7 @@
 // Check the "secret.key" whether safe or not.
 
 // Import fs
-const fs = require("fs");
+const fs = require("node:fs");
 
 // Import constant
 const constant = require("./const");

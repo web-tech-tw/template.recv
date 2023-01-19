@@ -1,8 +1,8 @@
 "use strict";
 
 // Import modules
-const {join: pathJoin} = require("path");
-const {existsSync} = require("fs");
+const {join: pathJoin} = require("node:path");
+const {existsSync} = require("node:fs");
 
 /**
  * Load configs from system environment variables.

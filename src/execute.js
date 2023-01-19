@@ -1,9 +1,9 @@
 "use strict";
 
 // Import modules
-const fs = require("fs");
-const http = require("http");
-const https = require("https");
+const fs = require("node:fs");
+const http = require("node:http");
+const https = require("node:https");
 
 /**
  * Setup http protocol (general)
