@@ -24,6 +24,13 @@ module.exports = (ctx, r) => {
         res.send({ip_address: utilIpAddress(req)});
     });
 
+    // Example to return the application environment
+    router.get("/env",
+        middlewareInspector, (_, res) => {
+            res.send(ctx.config.getEnvironmentOverview());
+        },
+    );
+
     // Example to check fields with middlewareValidator
     router.get("/empty",
         middlewareValidator.query("empty").isEmpty(),
