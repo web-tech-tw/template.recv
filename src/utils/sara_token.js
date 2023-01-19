@@ -2,7 +2,7 @@
 // Token utils of Sara.
 
 // Import config
-const {getMust} = require("../config");
+const {get, getMust} = require("../config");
 
 // Import createHash from crypto
 const {createHash} = require("node:crypto");
@@ -17,7 +17,7 @@ const sha256hex = (data) =>
 // Define generalValidateOptions generator
 const generalValidateOptions = ({jwtSecret}) => ({
     algorithms: ["HS256"],
-    issuer: getMust("SARA_ISSUER") || sha256hex(jwtSecret),
+    issuer: get("SARA_ISSUER") || sha256hex(jwtSecret),
     audience: getMust("SARA_AUDIENCE"),
     complete: true,
 });
