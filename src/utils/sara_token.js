@@ -1,11 +1,16 @@
 "use strict";
 // Token utils of Sara.
 
-// Import jsonwebtoken
-const jwt = require("jsonwebtoken");
+// Import createHash from node:crypto
+const {createHash} = require("node:crypto");
 
-// Import SHA256 generator
-const {sha256} = require("js-sha256");
+// Import jsonwebtoken
+const {verify} = require("jsonwebtoken");
+
+// Define SHA256 function
+const sha256 = (data) => (
+    createHash("sha256").update(data).digest("hex")
+);
 
 // Define generalValidateOptions generator
 const generalValidateOptions = (metadata) => ({
@@ -24,7 +29,7 @@ const generalValidateOptions = (metadata) => ({
 function validateAuthToken(ctx, token) {
     try {
         const validateOptions = generalValidateOptions({ctx});
-        const data = jwt.verify(token, ctx.jwt_secret, validateOptions, null);
+        const data = verify(token, ctx.jwt_secret, validateOptions, null);
         if (
             data?.header?.sara?.version !== 1 ||
             data?.header?.sara?.type !== "auth"
