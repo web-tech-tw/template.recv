@@ -7,12 +7,17 @@ const fs = require("fs");
 // Import constant
 const constant = require("./const");
 
-// Detect the command for generate secret
-const generateCommand = process.env.RUNTIME_ENV === "container" ?
-    "touch ./secret.key && " +
+// Define generate commands
+const generateCommandNative = "npm run new-secret";
+const generateCommandContainer = "touch ./secret.key && " +
     "docker run -v $PWD/secret.key:/workplace/secret.key $APP_IMAGE_NAME " +
-    "npm run new-secret" :
     "npm run new-secret";
+
+// Detect the command for generate secret
+const isContainer = process.env.RUNTIME_ENV === "container";
+const generateCommand = !isContainer ?
+    generateCommandNative :
+    generateCommandContainer;
 
 // Check if "secret.key" exists
 let jwtSecret;
@@ -22,18 +27,22 @@ try {
     if (e.code !== "ENOENT") {
         throw e;
     }
-    throw new Error(`
-        JWT secret is NOT EXISTS,
-        please generate one with "${generateCommand}"
-    `);
+    console.error(
+        "JWT secret is NOT EXISTS,",
+        `please generate one with "${generateCommand}"`,
+        "\n",
+    );
+    throw new Error("secret.key not exists");
 }
 
 // Check length
 if (jwtSecret.length < 2048) {
-    throw new Error(`
-        JWT secret is NOT SAFE,
-        please generate one with "${generateCommand}"
-    `);
+    console.error(
+        "JWT secret is NOT SAFE,",
+        `please generate new one with "${generateCommand}"`,
+        "\n",
+    );
+    throw new Error("secret.key not safe");
 }
 
 // Export jwtSecret (string)

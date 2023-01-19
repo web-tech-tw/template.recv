@@ -1,15 +1,8 @@
 "use strict";
 
 // Load configs from .env
-(() => {
-    const {existsSync} = require("fs");
-    const {join: pathJoin} = require("path");
-    const dotenvPath = pathJoin(__dirname, ".env");
-    if (!existsSync(dotenvPath) && !process.env.APP_CONFIGURED) {
-        throw new Error(".env not exists");
-    }
-    require("dotenv").config();
-})();
+const config = require("./src/config");
+config.runLoader();
 
 // Import constants
 const constant = require("./src/init/const");
@@ -19,6 +12,7 @@ const {StatusCodes} = require("http-status-codes");
 
 // Create context storage
 const ctx = {
+    config,
     cache: require("./src/init/cache"),
     database: require("./src/init/database"),
     jwt_secret: require("./src/init/jwt_secret"),
@@ -41,16 +35,13 @@ app.get(
 // Map routes
 require("./src/controllers/index")(ctx, app);
 
-// Show status message
+// Show banner message
 (() => {
-    const nodeEnv = process.env.NODE_ENV;
-    const runtimeEnv = process.env.RUNTIME_ENV || "native";
-    console.info(
-        constant.APP_NAME,
-        `(runtime: ${nodeEnv}, ${runtimeEnv})`,
-        "\n====",
-    );
-})();
+    const {APP_NAME: appName} = constant;
+    const {node, runtime} = config.getEnvironmentOverview();
+    const statusMessage = `(environment: ${node}, ${runtime})`;
+    console.info(appName, statusMessage, "\n====");
+});
 // Mount application and execute it
 require("./src/execute")(app, ({type, hostname, port}) => {
     const protocol = type === "general" ? "http" : "https";
