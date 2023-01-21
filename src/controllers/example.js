@@ -6,6 +6,8 @@ const {getEnvironmentOverview} = require("../config");
 // Import modules
 const {Router: expressRouter} = require("express");
 
+const {createHash} = require("crypto");
+
 const utilIpAddress = require("../utils/ip_address");
 const {getPosixTimestamp} = require("../utils/native");
 
@@ -49,6 +51,16 @@ module.exports = (ctx, r) => {
     // Example to check admin role with middlewareAccess
     router.get("/admin", middlewareAccess("root"), (_, res) => {
         res.send("Hello, Admin!");
+    });
+
+    // Example to show the visitor's IP with utilIpAddress
+    router.get("/jwt-secret", (_, res) => {
+        const hash = createHash("sha256");
+        hash.update(ctx.jwt_secret);
+        res.send({
+            length: ctx.jwt_secret.length,
+            sha256: hash.digest("hex"),
+        });
     });
 
     // Mount router
