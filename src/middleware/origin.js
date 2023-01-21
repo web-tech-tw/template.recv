@@ -1,5 +1,5 @@
 "use strict";
-// Check the header "Origin" in request is equal to WEBSITE_URL,
+// Check the header "Origin" in request is equal to CORS_ORIGIN,
 // if not, interrupt it.
 
 // Import config

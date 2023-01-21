@@ -26,7 +26,7 @@ const ctx = {
 // Initialize application
 const app = require("./src/init/express")(ctx);
 
-// Redirect / to WEBSITE_URL
+// Redirect / to INDEX_REDIRECT_URL
 app.get("/", (_, res) => {
     const redirectCode = getMust("INDEX_REDIRECT_TYPE") === "permanent" ?
         StatusCodes.MOVED_PERMANENTLY :
