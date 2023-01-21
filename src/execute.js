@@ -13,7 +13,7 @@ const {getMust} = require("./config");
  * @param {object} app
  * @param {function} callback
  */
-function general(app, callback) {
+function setupHttpProtocol(app, callback) {
     const options = {};
     const httpServer = http.createServer(options, app);
     const port = parseInt(getMust("HTTP_PORT"));
@@ -26,25 +26,30 @@ function general(app, callback) {
  * @param {object} app
  * @param {function} callback
  */
-function secure(app, callback) {
+function setupHttpsProtocol(app, callback) {
     const options = {
         key: fs.readFileSync(getMust("HTTPS_KEY_PATH")),
         cert: fs.readFileSync(getMust("HTTPS_CERT_PATH")),
     };
     const httpsServer = https.createServer(options, app);
     const port = parseInt(getMust("HTTPS_PORT"));
-    httpsServer.listen(port, getMust("HTTP_HOSTNAME"));
-    callback({type: "secure", hostname: getMust("HTTP_HOSTNAME"), port});
+    httpsServer.listen(port, getMust("HTTPS_HOSTNAME"));
+    callback({type: "secure", hostname: getMust("HTTPS_HOSTNAME"), port});
 }
 
 // Detect protocols automatically
 module.exports = function(app, callback) {
-    if (getMust("HTTPS") === "both") {
-        general(app, callback);
-        secure(app, callback);
-    } else if (getMust("HTTPS") === "only") {
-        secure(app, callback);
-    } else {
-        general(app, callback);
+    const enabledProtocols = getMust("ENABLED_PROTOCOLS").
+        split(",").
+        map((s) => s.trim());
+
+    // http
+    if (enabledProtocols.includes("http")) {
+        setupHttpProtocol(app, callback);
+    }
+
+    // https
+    if (enabledProtocols.includes("https")) {
+        setupHttpsProtocol(app, callback);
     }
 };

@@ -55,6 +55,15 @@ function get(key) {
 }
 
 /**
+ * Get the bool value from config, if yes, returns true.
+ * @param {string} key the key
+ * @return {bool} the bool value
+ */
+function getEnabled(key) {
+    return process.env[key] === "yes";
+}
+
+/**
  * Get the value from config with error thrown.
  * @param {string} key the key
  * @return {string} the expected value
@@ -83,6 +92,7 @@ module.exports = {
     isProduction,
     getEnvironmentOverview,
     get,
+    getEnabled,
     getMust,
     getFallback,
 };

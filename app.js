@@ -28,14 +28,17 @@ const app = require("./src/init/express")(ctx);
 
 // Redirect / to WEBSITE_URL
 app.get("/", (_, res) => {
-    res.redirect(StatusCodes.MOVED_PERMANENTLY, getMust("WEBSITE_URL"));
+    const redirectCode = getMust("INDEX_REDIRECT_TYPE") === "permanent" ?
+        StatusCodes.MOVED_PERMANENTLY :
+        StatusCodes.MOVED_TEMPORARILY;
+    const redirectUrl = getMust("INDEX_REDIRECT_URL");
+    res.redirect(redirectCode, redirectUrl);
 });
 
 // The handler for robots.txt (deny all friendly robots)
-app.get(
-    "/robots.txt",
-    (_, res) => res.type("txt").send("User-agent: *\nDisallow: /"),
-);
+app.get("/robots.txt", (_, res) => {
+    res.type("txt").send("User-agent: *\nDisallow: /");
+});
 
 // Map routes
 require("./src/controllers/index")(ctx, app);
