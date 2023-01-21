@@ -57,7 +57,7 @@ function get(key) {
 /**
  * Get the value from config with error thrown.
  * @param {string} key the key
- * @return {string} the excepted value
+ * @return {string} the expected value
  * @throws {Error} if value is undefined, throw an error
  */
 function getMust(key) {
@@ -72,7 +72,7 @@ function getMust(key) {
  * Get the value from config with fallback.
  * @param {string} key the key
  * @param {string} fallback the fallback value
- * @return {string} the excepted value
+ * @return {string} the expected value
  */
 function getFallback(key, fallback) {
     return get(key) || fallback;
