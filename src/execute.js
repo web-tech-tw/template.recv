@@ -1,12 +1,12 @@
 "use strict";
 
+// Import config
+const {getMust, getSplited} = require("./config");
+
 // Import modules
 const fs = require("node:fs");
 const http = require("node:http");
 const https = require("node:https");
-
-// Import config
-const {getMust} = require("./config");
 
 /**
  * Setup http protocol (general)
@@ -39,9 +39,7 @@ function setupHttpsProtocol(app, callback) {
 
 // Detect protocols automatically
 module.exports = function(app, callback) {
-    const enabledProtocols = getMust("ENABLED_PROTOCOLS").
-        split(",").
-        map((s) => s.trim());
+    const enabledProtocols = getSplited("ENABLED_PROTOCOLS");
 
     // http
     if (enabledProtocols.includes("http")) {

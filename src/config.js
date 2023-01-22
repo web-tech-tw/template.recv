@@ -60,7 +60,19 @@ function get(key) {
  * @return {bool} the bool value
  */
 function getEnabled(key) {
-    return process.env[key] === "yes";
+    return getMust(key) === "yes";
+}
+
+/**
+ * Get the array value from config.
+ * @param {string} key the key
+ * @param {string} separator [separator=,] the separator.
+ * @return {array} the array value
+ */
+function getSplited(key, separator=",") {
+    return getMust(key).
+        split(separator).
+        map((s) => s.trim());
 }
 
 /**
@@ -70,7 +82,7 @@ function getEnabled(key) {
  * @throws {Error} if value is undefined, throw an error
  */
 function getMust(key) {
-    const value = process.env[key];
+    const value = get(key);
     if (value === undefined) {
         throw new Error(`config key ${key} is undefined`);
     }
@@ -93,6 +105,7 @@ module.exports = {
     getEnvironmentOverview,
     get,
     getEnabled,
+    getSplited,
     getMust,
     getFallback,
 };
