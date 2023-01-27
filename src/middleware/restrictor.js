@@ -1,0 +1,53 @@
+"use strict";
+// The solution to defense from brute-force attacks,
+
+// Import StatusCodes
+const {StatusCodes} = require("http-status-codes");
+
+// Import utilIpAddress
+const utilIpAddress = require("../utils/ip_address");
+
+/**
+ * Get path key from request.
+ * @param {object} req the request
+ * @param {boolean} isParam is param mode
+ * @return {array}
+ */
+function getPathKey(req, isParam) {
+    const pathArray = req.originalUrl.split("/").filter((i) => !!i);
+    if (isParam) {
+        pathArray.pop();
+    }
+    return pathArray.join(".");
+}
+
+// Export (function)
+// max is the maximum number of requests allowed every IP addresss.
+// ttl is the seconds to unblock the IP address if there no request comes.
+// if ttl set as 0, it will be blocked forever until the software restarted.
+module.exports = (ctx, max, ttl, isParam) => (req, res, next) => {
+    const pathKey = getPathKey(req, isParam);
+    const visitorKey = utilIpAddress(req);
+    const queryKey = ["restrictor", pathKey, visitorKey].join(":");
+
+    const keyValue = ctx.cache.get(queryKey);
+
+    const incraseValue = () => {
+        const offset = keyValue ? keyValue + 1 : 1;
+        ctx.cache.set(queryKey, offset, ttl);
+    };
+
+    if (keyValue > max) {
+        res.sendStatus(StatusCodes.TOO_MANY_REQUESTS);
+        incraseValue();
+        return;
+    }
+
+    res.on("finish", () => {
+        if (res.statusCode !== StatusCodes.UNAUTHORIZED) {
+            return;
+        }
+        incraseValue();
+    });
+    next();
+};

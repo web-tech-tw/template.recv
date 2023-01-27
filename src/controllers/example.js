@@ -5,6 +5,7 @@ const {getEnvironmentOverview} = require("../config");
 
 // Import modules
 const {Router: expressRouter} = require("express");
+const {StatusCodes} = require("http-status-codes");
 
 const {createHash} = require("crypto");
 
@@ -14,6 +15,7 @@ const {getPosixTimestamp} = require("../utils/native");
 const middlewareValidator = require("express-validator");
 const middlewareAccess = require("../middleware/access");
 const middlewareInspector = require("../middleware/inspector");
+const middlewareRestrictor = require("../middleware/restrictor");
 
 // Export routes mapper (function)
 module.exports = (ctx, r) => {
@@ -30,11 +32,9 @@ module.exports = (ctx, r) => {
     });
 
     // Example to return the application environment
-    router.get("/env",
-        middlewareInspector, (_, res) => {
-            res.send(getEnvironmentOverview());
-        },
-    );
+    router.get("/env", (_, res) => {
+        res.send(getEnvironmentOverview());
+    });
 
     // Example to check fields with middlewareValidator
     router.get("/empty",
@@ -52,6 +52,20 @@ module.exports = (ctx, r) => {
     router.get("/admin", middlewareAccess("root"), (_, res) => {
         res.send("Hello, Admin!");
     });
+
+    // Example to show how the restrictor works
+    const trustedCode = "qwertyuiop";
+    router.get("/guess/:code",
+        middlewareRestrictor(ctx, 5, 30, true),
+        (req, res) => {
+            const untrustedCode = req.params.code;
+            if (untrustedCode !== trustedCode) {
+                res.sendStatus(StatusCodes.UNAUTHORIZED);
+                return;
+            }
+            res.send(`Hello! ${untrustedCode}`);
+        },
+    );
 
     // Example to show the visitor's IP with utilIpAddress
     router.get("/jwt-secret", (_, res) => {
