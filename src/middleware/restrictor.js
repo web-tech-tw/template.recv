@@ -32,14 +32,14 @@ module.exports = (ctx, max, ttl, isParam) => (req, res, next) => {
 
     const keyValue = ctx.cache.get(queryKey);
 
-    const incraseValue = () => {
+    const increaseValue = () => {
         const offset = keyValue ? keyValue + 1 : 1;
         ctx.cache.set(queryKey, offset, ttl);
     };
 
     if (keyValue > max) {
         res.sendStatus(StatusCodes.TOO_MANY_REQUESTS);
-        incraseValue();
+        increaseValue();
         return;
     }
 
@@ -47,7 +47,7 @@ module.exports = (ctx, max, ttl, isParam) => (req, res, next) => {
         if (res.statusCode !== StatusCodes.UNAUTHORIZED) {
             return;
         }
-        incraseValue();
+        increaseValue();
     });
     next();
 };
