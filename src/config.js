@@ -17,7 +17,7 @@ function runLoader() {
         console.error(
             "No '.env' file detected in app root.",
             "If you're not using dotenv file,",
-            "set 'APP_CONFIGURED=1' into environment variable",
+            "set 'APP_CONFIGURED=1' into environment variables.",
             "\n",
         );
         throw new Error(".env not exists");

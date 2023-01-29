@@ -26,6 +26,6 @@ try {
     fs.writeFileSync(filename, secret);
     console.info(`Secret Hash (sha256): ${sha256hex(secret)}`);
     console.info(`The secret has been saved into "${filename}".`);
-} catch (e) {
-    console.error(e);
+} catch (error) {
+    console.error(error);
 }

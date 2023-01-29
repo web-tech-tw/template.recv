@@ -26,13 +26,13 @@ const generateCommand = !isContainer ?
 let jwtSecret;
 try {
     jwtSecret = fs.readFileSync(constant.SECRET_FILENAME).toString();
-} catch (e) {
-    if (e.code !== "ENOENT") {
-        throw e;
+} catch (error) {
+    if (error.code !== "ENOENT") {
+        throw error;
     }
     console.error(
         "JWT secret is NOT EXISTS,",
-        `please generate one with "${generateCommand}"`,
+        `please generate one with "${generateCommand}".`,
         "\n",
     );
     throw new Error("secret.key not exists");
@@ -42,7 +42,7 @@ try {
 if (jwtSecret.length < 2048) {
     console.error(
         "JWT secret is NOT SAFE,",
-        `please generate new one with "${generateCommand}"`,
+        `please generate new one with "${generateCommand}".`,
         "\n",
     );
     throw new Error("secret.key not safe");

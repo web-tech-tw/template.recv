@@ -37,12 +37,12 @@ function validateAuthToken(ctx, token) {
             data?.header?.sara?.version !== 1 ||
             data?.header?.sara?.type !== "auth"
         ) {
-            console.error("invalid_sara_code_token");
+            console.error(new Error("invalid_sara_code_token"));
             return false;
         }
         return data.payload;
-    } catch (e) {
-        console.error(e);
+    } catch (error) {
+        console.error(error);
         return false;
     }
 }
