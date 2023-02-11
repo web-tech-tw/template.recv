@@ -3,6 +3,8 @@
 
 /**
  * Get POSIX Timestamp (second)
+ * @module native
+ * @function
  * @return {number}
  */
 function getPosixTimestamp() {
@@ -11,6 +13,8 @@ function getPosixTimestamp() {
 
 /**
  * Shortcut for hasOwnProperty with safe.
+ * @module native
+ * @function
  * @param {object} srcObject
  * @param {string} propName
  * @return {boolean}

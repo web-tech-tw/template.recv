@@ -3,6 +3,8 @@
 
 /**
  * Get IP Address from request with fallback.
+ * @module ip_address
+ * @function
  * @param {object} req the request
  * @return {string} the IP Address
  */

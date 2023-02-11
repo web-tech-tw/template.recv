@@ -28,6 +28,8 @@ function runLoader() {
 
 /**
  * Check is production mode.
+ * @module config
+ * @function
  * @return {boolean} true if production
  */
 function isProduction() {
@@ -36,6 +38,8 @@ function isProduction() {
 
 /**
  * Get environment overview.
+ * @module config
+ * @function
  * @return {object}
  */
 function getEnvironmentOverview() {
@@ -47,6 +51,8 @@ function getEnvironmentOverview() {
 
 /**
  * Shortcut to get config value.
+ * @module config
+ * @function
  * @param {string} key the key
  * @return {string} the value
  */
@@ -56,6 +62,8 @@ function get(key) {
 
 /**
  * Get the bool value from config, if yes, returns true.
+ * @module config
+ * @function
  * @param {string} key the key
  * @return {bool} the bool value
  */
@@ -65,6 +73,8 @@ function getEnabled(key) {
 
 /**
  * Get the array value from config.
+ * @module config
+ * @function
  * @param {string} key the key
  * @param {string} separator [separator=,] the separator.
  * @return {array} the array value
@@ -77,6 +87,8 @@ function getSplited(key, separator=",") {
 
 /**
  * Get the value from config with error thrown.
+ * @module config
+ * @function
  * @param {string} key the key
  * @return {string} the expected value
  * @throws {Error} if value is undefined, throw an error
@@ -91,6 +103,8 @@ function getMust(key) {
 
 /**
  * Get the value from config with fallback.
+ * @module config
+ * @function
  * @param {string} key the key
  * @param {string} fallback the fallback value
  * @return {string} the expected value

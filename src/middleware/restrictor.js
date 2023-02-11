@@ -12,6 +12,8 @@ const {getIPAddress} = require("../utils/ip_address");
 
 /**
  * Get path key from request.
+ * @module restrictor
+ * @function
  * @param {object} req the request
  * @param {boolean} isParam is param mode
  * @return {array}

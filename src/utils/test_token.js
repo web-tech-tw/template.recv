@@ -13,6 +13,8 @@ const DEFAULT_FAKE_USER = {
 
 /**
  * Issue function (Auth)
+ * @module test_token
+ * @function
  * @param {string} [user] - The user to generate the token for.
  * @return {string}
  */
@@ -28,6 +30,8 @@ function issueAuthToken(user) {
 
 /**
  * Validate function (Auth)
+ * @module test_token
+ * @function
  * @param {string} token - The token to valid.
  * @return {boolean|object}
  */

@@ -30,6 +30,8 @@ const jwtSecret = useJwtSecret();
 
 /**
  * Validate function (Auth)
+ * @module sara_token
+ * @function
  * @param {string} token - The token to valid.
  * @return {boolean|object}
  */
