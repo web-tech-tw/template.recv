@@ -20,8 +20,9 @@ const DEFAULT_FAKE_USER = {
  */
 function issueAuthToken(user) {
     if (isProduction()) {
-        throw new Error("issueAuthToken is not allowed in production");
+        throw new Error("test_token is not allowed in production");
     }
+
     user = user || DEFAULT_FAKE_USER;
     return Buffer
         .from(JSON.stringify(user), "utf-8")
@@ -37,7 +38,7 @@ function issueAuthToken(user) {
  */
 function validateAuthToken(token) {
     if (isProduction()) {
-        return false;
+        throw new Error("test_token is not allowed in production");
     }
 
     return {
