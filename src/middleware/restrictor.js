@@ -8,7 +8,7 @@ const {StatusCodes} = require("http-status-codes");
 const {useCache} = require("../init/cache");
 
 // Import getIPAddress
-const {getIPAddress} = require("../utils/ip_address");
+const {getIPAddress} = require("../utils/visitor");
 
 /**
  * Get path key from request.
