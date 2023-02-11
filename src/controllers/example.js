@@ -4,7 +4,6 @@
 const {getEnvironmentOverview} = require("../config");
 
 // Import modules
-const {Router: expressRouter} = require("express");
 const {StatusCodes} = require("http-status-codes");
 
 const {createHash} = require("crypto");
@@ -24,7 +23,8 @@ const middlewareInspector = require("../middleware/inspector");
 const middlewareRestrictor = require("../middleware/restrictor");
 
 // Create router
-const router = expressRouter();
+const {Router: newRouter} = express;
+const router = newRouter();
 
 // Request body parser middleware
 router.use(express.urlencoded({extended: true}));
