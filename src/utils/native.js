@@ -19,7 +19,7 @@ function isObjectPropExists(srcObject, propName) {
     return Object.prototype.hasOwnProperty.call(srcObject, propName);
 }
 
-// Export (function)
+// Export (object)
 module.exports = {
     getPosixTimestamp,
     isObjectPropExists,

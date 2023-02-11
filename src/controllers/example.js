@@ -14,7 +14,7 @@ const {useApp, express} = require("../init/express");
 // Import useJwtSecret
 const {useJwtSecret} = require("../init/jwt_secret");
 
-const utilIpAddress = require("../utils/ip_address");
+const {getIPAddress} = require("../utils/ip_address");
 const {getPosixTimestamp} = require("../utils/native");
 
 const middlewareValidator = require("express-validator");
@@ -39,7 +39,7 @@ router.get("/now", (_, res) => {
 
 // Example to show the visitor's IP with utilIpAddress
 router.get("/ip", (req, res) => {
-    res.send({ip_address: utilIpAddress(req)});
+    res.send({ip_address: getIPAddress(req)});
 });
 
 // Example to return the application environment

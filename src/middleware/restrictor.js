@@ -7,8 +7,8 @@ const {StatusCodes} = require("http-status-codes");
 // Import useCache
 const {useCache} = require("../init/cache");
 
-// Import utilIpAddress
-const utilIpAddress = require("../utils/ip_address");
+// Import getIPAddress
+const {getIPAddress} = require("../utils/ip_address");
 
 /**
  * Get path key from request.
@@ -30,7 +30,7 @@ function getPathKey(req, isParam) {
 // if ttl set as 0, it will be blocked forever until the software restarted.
 module.exports = (max, ttl, isParam) => (req, res, next) => {
     const pathKey = getPathKey(req, isParam);
-    const visitorKey = utilIpAddress(req);
+    const visitorKey = getIPAddress(req);
     const queryKey = ["restrictor", pathKey, visitorKey].join(":");
 
     const cache = useCache();
