@@ -26,8 +26,11 @@ const middlewareRestrictor = require("../middleware/restrictor");
 // Create router
 const router = expressRouter();
 
-// Set request body parser
+// Request body parser middleware
 router.use(express.urlencoded({extended: true}));
+
+// Auth middleware
+router.use(require("../middleware/auth"));
 
 // Example to show time
 router.get("/now", (_, res) => {
