@@ -8,7 +8,7 @@ const {StatusCodes} = require("http-status-codes");
 
 const {createHash} = require("crypto");
 
-// Import useApp
+// Import useApp, express
 const {useApp, express} = require("../init/express");
 
 // Import useJwtSecret
