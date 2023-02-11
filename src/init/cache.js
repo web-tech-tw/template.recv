@@ -4,5 +4,8 @@
 // Import node-cache
 const NodeCache = require("node-cache");
 
-// Initialize node-cache, and export (instance)
-module.exports = new NodeCache({stdTTL: 100});
+// Initialize node-cache
+const cache = new NodeCache({stdTTL: 100});
+
+// Export as useFunction
+exports.useCache = () => cache;

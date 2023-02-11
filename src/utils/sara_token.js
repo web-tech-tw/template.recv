@@ -10,6 +10,9 @@ const {createHash} = require("node:crypto");
 // Import jsonwebtoken
 const {verify} = require("jsonwebtoken");
 
+// Import useJwtSecret
+const {useJwtSecret} = require("../init/jwt_secret");
+
 // Define hash function - SHA256
 const sha256hex = (data) =>
     createHash("sha256").update(data).digest("hex");
@@ -22,14 +25,15 @@ const generalValidateOptions = ({jwtSecret}) => ({
     complete: true,
 });
 
+// Define jwtSecret
+const jwtSecret = useJwtSecret();
+
 /**
  * Validate function (Auth)
- * @param {object} ctx - The context variable from app.js.
  * @param {string} token - The token to valid.
  * @return {boolean|object}
  */
-function validateAuthToken(ctx, token) {
-    const {jwt_secret: jwtSecret} = ctx;
+function validateAuthToken(token) {
     try {
         const validateOptions = generalValidateOptions({jwtSecret});
         const data = verify(token, jwtSecret, validateOptions, null);

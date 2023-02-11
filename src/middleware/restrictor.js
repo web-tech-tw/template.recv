@@ -4,6 +4,9 @@
 // Import StatusCodes
 const {StatusCodes} = require("http-status-codes");
 
+// Import useCache
+const {useCache} = require("../init/cache");
+
 // Import utilIpAddress
 const utilIpAddress = require("../utils/ip_address");
 
@@ -25,16 +28,18 @@ function getPathKey(req, isParam) {
 // max is the maximum number of requests allowed every IP addresss.
 // ttl is the seconds to unblock the IP address if there no request comes.
 // if ttl set as 0, it will be blocked forever until the software restarted.
-module.exports = (ctx, max, ttl, isParam) => (req, res, next) => {
+module.exports = (max, ttl, isParam) => (req, res, next) => {
     const pathKey = getPathKey(req, isParam);
     const visitorKey = utilIpAddress(req);
     const queryKey = ["restrictor", pathKey, visitorKey].join(":");
 
-    const keyValue = ctx.cache.get(queryKey);
+    const cache = useCache();
+
+    const keyValue = cache.get(queryKey);
 
     const increaseValue = () => {
         const offset = keyValue ? keyValue + 1 : 1;
-        ctx.cache.set(queryKey, offset, ttl);
+        cache.set(queryKey, offset, ttl);
     };
 
     if (keyValue > max) {

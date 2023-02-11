@@ -23,7 +23,7 @@ const generateCommand = !isContainer ?
     generateCommandContainer;
 
 // Check if "secret.key" exists
-let jwtSecret;
+let jwtSecret = "";
 try {
     jwtSecret = fs.readFileSync(constant.SECRET_FILENAME).toString();
 } catch (error) {
@@ -48,5 +48,5 @@ if (jwtSecret.length < 2048) {
     throw new Error("secret.key not safe");
 }
 
-// Export jwtSecret (string)
-module.exports = jwtSecret;
+// Export as useFunction
+exports.useJwtSecret = () => jwtSecret;

@@ -13,5 +13,5 @@ database.set("strictQuery", true);
 // Connect to MongoDB
 database.connect(getMust("MONGODB_URI"));
 
-// Export database (instance)
-module.exports = database;
+// Export as useFunction
+exports.useDatabase = () => database;

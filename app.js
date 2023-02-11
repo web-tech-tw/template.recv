@@ -16,15 +16,11 @@ const constant = require("./src/init/const");
 // Import StatusCodes
 const {StatusCodes} = require("http-status-codes");
 
-// Create context storage
-const ctx = {
-    cache: require("./src/init/cache"),
-    database: require("./src/init/database"),
-    jwt_secret: require("./src/init/jwt_secret"),
-};
+// Import useApp
+const {useApp} = require("./src/init/express");
 
 // Initialize application
-const app = require("./src/init/express")(ctx);
+const app = useApp();
 
 // Redirect / to INDEX_REDIRECT_URL
 app.get("/", (_, res) => {
@@ -41,7 +37,7 @@ app.get("/robots.txt", (_, res) => {
 });
 
 // Map routes
-require("./src/controllers/index")(ctx, app);
+require("./src/controllers/index")();
 
 // Show banner message
 (() => {
