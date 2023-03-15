@@ -34,20 +34,39 @@ function issueAuthToken(user) {
  * @module test_token
  * @function
  * @param {string} token - The token to valid.
- * @return {boolean|object}
+ * @return {object}
  */
 function validateAuthToken(token) {
     if (isProduction()) {
         throw new Error("test_token is not allowed in production");
     }
 
-    return {
-        user: JSON.parse(
+    const result = {
+        userId: null,
+        payload: null,
+        isAborted: false,
+    };
+
+    try {
+        const data = JSON.parse(
             Buffer
                 .from(token, "base64")
                 .toString("utf-8"),
-        ),
-    };
+        );
+
+        const payload = {
+            sub: data.id,
+            user: data,
+        };
+
+        result.userId = payload.sub;
+        result.payload = payload;
+    } catch (e) {
+        result.isAborted = true;
+        result.payload = e;
+    }
+
+    return result;
 }
 
 // Export (object)

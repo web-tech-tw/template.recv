@@ -33,23 +33,33 @@ const validateOptions = {
  * @module sara_token
  * @function
  * @param {string} token - The token to valid.
- * @return {boolean|object}
+ * @return {object}
  */
 function validateAuthToken(token) {
+    const result = {
+        userId: null,
+        payload: null,
+        isAborted: false,
+    };
+
     try {
-        const data = verify(token, jwtSecret, validateOptions);
+        const {header, payload} = verify(token, jwtSecret, validateOptions);
+
         if (
-            data?.header?.sara?.version !== 1 ||
-            data?.header?.sara?.type !== "auth"
+            header?.sara?.version !== 1 ||
+            header?.sara?.type !== "auth"
         ) {
-            console.error(new Error("invalid_sara_code_token"));
-            return false;
+            throw new Error("invalid_sara_code_token");
         }
-        return data.payload;
-    } catch (error) {
-        console.error(error);
-        return false;
+
+        result.userId = payload.sub;
+        result.payload = payload;
+    } catch (e) {
+        result.isAborted = true;
+        result.payload = e;
     }
+
+    return result;
 }
 
 // Export (object)

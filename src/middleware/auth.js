@@ -5,16 +5,15 @@
 // please use "access.js" middleware.
 
 // Import StatusCodes
-const {StatusCodes} = require("http-status-codes");
-
 const {isObjectPropExists} = require("../utils/native");
+
+const saraTokenAuth = require("../utils/sara_token");
+const testTokenAuth = require("../utils/test_token");
 
 // Import authMethods
 const authMethods = {
-    "TEST": async (req, _) =>
-        require("../utils/test_token").validateAuthToken(req.auth.secret),
-    "SARA": async (req, _) =>
-        require("../utils/sara_token").validateAuthToken(req.auth.secret),
+    "SARA": saraTokenAuth.validateAuthToken,
+    "TEST": testTokenAuth.validateAuthToken,
 };
 
 // Export (function)
@@ -24,43 +23,36 @@ module.exports = (req, res, next) => {
         next();
         return;
     }
+
     const params = authCode.split(" ");
     if (params.length !== 2) {
         next();
         return;
     }
+    const [method, secret] = params;
+
     req.auth = {
         id: null,
         metadata: null,
-        method: params[0],
-        secret: params[1],
+        method,
+        secret,
     };
     if (!isObjectPropExists(authMethods, req.auth.method)) {
         next();
         return;
     }
-    authMethods[req.auth.method](req, res)
-        .then((result) => {
-            if (res.aborted) {
-                return;
-            }
-            if (result && !req.auth.metadata) {
-                req.auth.metadata = result;
-            }
-            if (result && !req.auth.id) {
-                req.auth.id =
-                    result?.id ||
-                    result?.sub ||
-                    result?.user?.id ||
-                    result?.data?.id ||
-                    result?.user?._id ||
-                    result?.data?._id ||
-                    null;
-            }
-            next();
-        })
-        .catch((error) => {
-            res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-            console.error(error);
-        });
+
+    const {
+        userId,
+        payload,
+        isAborted,
+    } = authMethods[method](secret);
+    if (isAborted) {
+        next();
+        return;
+    }
+
+    req.auth.id = userId;
+    req.auth.metadata = payload;
+    next();
 };
