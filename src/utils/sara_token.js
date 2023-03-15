@@ -13,20 +13,20 @@ const {verify} = require("jsonwebtoken");
 // Import useJwtSecret
 const {useJwtSecret} = require("../init/jwt_secret");
 
+// Define jwtSecret
+const jwtSecret = useJwtSecret();
+
 // Define hash function - SHA256
 const sha256hex = (data) =>
     createHash("sha256").update(data).digest("hex");
 
-// Define generalValidateOptions generator
-const generalValidateOptions = ({jwtSecret}) => ({
+// Define validateOptions
+const validateOptions = {
     algorithms: ["HS256"],
     issuer: get("SARA_ISSUER") || sha256hex(jwtSecret),
     audience: getMust("SARA_AUDIENCE"),
     complete: true,
-});
-
-// Define jwtSecret
-const jwtSecret = useJwtSecret();
+};
 
 /**
  * Validate function (Auth)
@@ -37,8 +37,7 @@ const jwtSecret = useJwtSecret();
  */
 function validateAuthToken(token) {
     try {
-        const validateOptions = generalValidateOptions({jwtSecret});
-        const data = verify(token, jwtSecret, validateOptions, null);
+        const data = verify(token, jwtSecret, validateOptions);
         if (
             data?.header?.sara?.version !== 1 ||
             data?.header?.sara?.type !== "auth"
