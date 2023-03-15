@@ -2,13 +2,15 @@
 
 後端 API 通用模板
 
-## Development
+A tiny but powerful microservice framework.
+
+## Development 開發環境
 
 ```shell
 npm run dev
 ```
 
-## Production
+## Production 生產環境
 
 ```shell
 npm start
