@@ -10,7 +10,7 @@
     "new-secret": "node new_secret.js",
     "dev": "nodemon app.js",
     "start": "node app.js",
-    "lint": "npm run lint:es",
+    "lint": "npx lint-staged",
     "lint:es": "eslint \"*.js\" \"src/**/*.js\"",
     "lint:es:fix": "eslint \"*.js\" \"src/**/*.js\" --fix",
     "prepare": "husky install"
