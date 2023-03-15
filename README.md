@@ -1,6 +1,6 @@
 # template.recv
 
-後端 API 通用模板
+一個小型卻強大的微服務框架。
 
 A tiny but powerful microservice framework.
 
