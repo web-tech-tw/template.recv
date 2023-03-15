@@ -13,7 +13,8 @@
     "lint": "npx lint-staged",
     "lint:es": "eslint \"*.js\" \"src/**/*.js\"",
     "lint:es:fix": "eslint \"*.js\" \"src/**/*.js\" --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "commit": "cz"
   },
   "lint-staged": {
     "*.js": "eslint"
@@ -32,10 +33,16 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.17.0",
     "eslint-config-google": "^0.14.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
     "nodemon": "^2.0.13"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
