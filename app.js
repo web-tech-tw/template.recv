@@ -37,7 +37,7 @@ app.get("/robots.txt", (_, res) => {
 });
 
 // Map routes
-require("./src/controllers/index")();
+require("./src/routes/index")();
 
 // Show banner message
 (() => {
