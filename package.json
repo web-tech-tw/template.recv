@@ -13,8 +13,7 @@
     "lint": "npx lint-staged",
     "lint:es": "eslint \"*.js\" \"src/**/*.js\"",
     "lint:es:fix": "eslint \"*.js\" \"src/**/*.js\" --fix",
-    "prepare": "husky install",
-    "commit": "cz"
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.js": "eslint"
