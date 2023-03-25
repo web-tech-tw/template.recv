@@ -24,9 +24,9 @@ function issueAuthToken(user) {
     }
 
     user = user || DEFAULT_FAKE_USER;
-    return Buffer
-        .from(JSON.stringify(user), "utf-8")
-        .toString("base64");
+    return Buffer.
+        from(JSON.stringify(user), "utf-8").
+        toString("base64");
 }
 
 /**
@@ -49,9 +49,9 @@ function validateAuthToken(token) {
 
     try {
         const data = JSON.parse(
-            Buffer
-                .from(token, "base64")
-                .toString("utf-8"),
+            Buffer.
+                from(token, "base64").
+                toString("utf-8"),
         );
 
         const payload = {
