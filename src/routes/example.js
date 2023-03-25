@@ -63,7 +63,7 @@ router.get("/empty",
 );
 
 // Example to check admin role with middlewareAccess
-router.get("/admin", middlewareAccess("root"), (req, res) => {
+router.get("/admin", middlewareAccess("admin"), (req, res) => {
     res.send({
         "message": "Hello, Admin!",
         "payload": req.auth,

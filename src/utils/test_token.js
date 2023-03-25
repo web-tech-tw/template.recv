@@ -12,13 +12,13 @@ const DEFAULT_FAKE_USER = {
 };
 
 /**
- * Issue function (Auth)
+ * Issue token
  * @module test_token
  * @function
  * @param {string} user - The user to generate the token for.
  * @return {string}
  */
-function issueAuthToken(user) {
+function issue(user) {
     if (isProduction()) {
         throw new Error("test_token is not allowed in production");
     }
@@ -30,13 +30,13 @@ function issueAuthToken(user) {
 }
 
 /**
- * Validate function (Auth)
+ * Validate token
  * @module test_token
  * @function
  * @param {string} token - The token to valid.
  * @return {object}
  */
-function validateAuthToken(token) {
+function validate(token) {
     if (isProduction()) {
         throw new Error("test_token is not allowed in production");
     }
@@ -71,6 +71,6 @@ function validateAuthToken(token) {
 
 // Export (object)
 module.exports = {
-    issueAuthToken,
-    validateAuthToken,
+    issue,
+    validate,
 };

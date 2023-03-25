@@ -29,13 +29,13 @@ const validateOptions = {
 };
 
 /**
- * Validate function (Auth)
+ * Validate token
  * @module sara_token
  * @function
  * @param {string} token - The token to valid.
  * @return {object}
  */
-function validateAuthToken(token) {
+function validate(token) {
     const result = {
         userId: null,
         payload: null,
@@ -64,5 +64,5 @@ function validateAuthToken(token) {
 
 // Export (object)
 module.exports = {
-    validateAuthToken,
+    validate,
 };

@@ -12,12 +12,12 @@ const testTokenAuth = require("../utils/test_token");
 
 // Import authMethods
 const authMethods = {
-    "SARA": saraTokenAuth.validateAuthToken,
-    "TEST": testTokenAuth.validateAuthToken,
+    "SARA": saraTokenAuth.validate,
+    "TEST": testTokenAuth.validate,
 };
 
 // Export (function)
-module.exports = (req, res, next) => {
+module.exports = (req, _, next) => {
     const authCode = req.header("Authorization");
     if (!authCode) {
         next();
