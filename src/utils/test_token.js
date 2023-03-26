@@ -6,8 +6,8 @@ const {isProduction} = require("../config");
 
 const DEFAULT_FAKE_USER = {
     id: "fake_user",
-    nickname: "OpenChat Fake User",
-    email: "openchat-fake@web-tech.github.io",
+    nickname: "The Fake User",
+    email: "the_fake_user@web-tech-tw.github.io",
     roles: [],
 };
 

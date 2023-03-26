@@ -16,8 +16,11 @@ const authMethods = {
     "TEST": testTokenAuth.validate,
 };
 
+const isAsync = (func) =>
+    func.constructor.name === "AsyncFunction";
+
 // Export (function)
-module.exports = (req, _, next) => {
+module.exports = async (req, _, next) => {
     const authCode = req.header("Authorization");
     if (!authCode) {
         next();
@@ -42,11 +45,16 @@ module.exports = (req, _, next) => {
         return;
     }
 
+    const authMethod = authMethods[method];
+    const authResult = isAsync(authMethod) ?
+        await authMethod(secret) :
+        authMethod(secret);
+
     const {
         userId,
         payload,
         isAborted,
-    } = authMethods[method](secret);
+    } = authResult;
     if (isAborted) {
         next();
         return;

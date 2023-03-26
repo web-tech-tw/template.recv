@@ -6,13 +6,8 @@ const {getEnvironmentOverview} = require("../config");
 // Import modules
 const {StatusCodes} = require("http-status-codes");
 
-const {createHash} = require("crypto");
-
 // Import useApp, express
 const {useApp, express} = require("../init/express");
-
-// Import useJwtSecret
-const {useJwtSecret} = require("../init/jwt_secret");
 
 const {getIPAddress, getUserAgent} = require("../utils/visitor");
 const {getPosixTimestamp} = require("../utils/native");
@@ -62,11 +57,16 @@ router.get("/empty",
     },
 );
 
+// Example to test auth works
+router.get("/auth", (req, res) => {
+    res.send(req.auth);
+});
+
 // Example to check admin role with middlewareAccess
 router.get("/admin", middlewareAccess("admin"), (req, res) => {
     res.send({
         "message": "Hello, Admin!",
-        "payload": req.auth,
+        "user_id": req.auth.id,
     });
 });
 
@@ -83,17 +83,6 @@ router.get("/guess/:code",
         res.send(`Hello! ${untrustedCode}`);
     },
 );
-
-// Example to show the visitor's IP with utilIpAddress
-const jwtSecret = useJwtSecret();
-router.get("/jwt-secret", (_, res) => {
-    const hash = createHash("sha256");
-    hash.update(jwtSecret);
-    res.send({
-        length: jwtSecret.length,
-        sha256: hash.digest("hex"),
-    });
-});
 
 // Export routes mapper (function)
 module.exports = () => {

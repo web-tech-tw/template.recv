@@ -2,31 +2,16 @@
 // Token utils of Sara.
 
 // Import config
-const {get, getMust} = require("../config");
+const {getMust} = require("../config");
 
-// Import createHash from crypto
-const {createHash} = require("node:crypto");
+const axios = require("axios");
 
-// Import jsonwebtoken
-const {verify} = require("jsonwebtoken");
-
-// Import useJwtSecret
-const {useJwtSecret} = require("../init/jwt_secret");
-
-// Define jwtSecret
-const jwtSecret = useJwtSecret();
-
-// Define hash function - SHA256
-const sha256hex = (data) =>
-    createHash("sha256").update(data).digest("hex");
-
-// Define validateOptions
-const validateOptions = {
-    algorithms: ["HS256"],
-    issuer: get("SARA_ISSUER") || sha256hex(jwtSecret),
-    audience: getMust("SARA_AUDIENCE"),
-    complete: true,
-};
+const client = axios.create({
+    baseURL: getMust("SARA_RECV_HOST"),
+    headers: {
+        "User-Agent": "sara_client/2.0",
+    },
+});
 
 /**
  * Validate token
@@ -35,7 +20,7 @@ const validateOptions = {
  * @param {string} token - The token to valid.
  * @return {object}
  */
-function validate(token) {
+async function validate(token) {
     const result = {
         userId: null,
         payload: null,
@@ -43,17 +28,13 @@ function validate(token) {
     };
 
     try {
-        const {header, payload} = verify(token, jwtSecret, validateOptions);
-
-        if (
-            header?.sara?.version !== 1 ||
-            header?.sara?.type !== "auth"
-        ) {
-            throw new Error("invalid_sara_code_token");
-        }
-
-        result.userId = payload.sub;
-        result.payload = payload;
+        const authResponse = await client.get("/profile", {
+            headers: {
+                "Authorization": `SARA ${token}`,
+            },
+        });
+        result.userId = authResponse.data._id;
+        result.payload = authResponse.data;
     } catch (e) {
         result.isAborted = true;
         result.payload = e;
