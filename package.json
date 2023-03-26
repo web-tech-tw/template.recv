@@ -7,7 +7,6 @@
   "license": "MIT",
   "main": "app.js",
   "scripts": {
-    "new-secret": "node new_secret.js",
     "dev": "nodemon app.js",
     "start": "node app.js",
     "lint": "npx lint-staged",
