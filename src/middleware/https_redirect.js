@@ -20,5 +20,7 @@ module.exports = (req, res, next) => {
         }
         res.redirect(StatusCodes.MOVED_PERMANENTLY, `https://${req.headers.host}${req.url}`);
     }
+
+    // Call next middleware
     next();
 };

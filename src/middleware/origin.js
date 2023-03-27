@@ -23,5 +23,7 @@ module.exports = (req, res, next) => {
         res.sendStatus(StatusCodes.FORBIDDEN);
         return;
     }
+
+    // Call next middleware
     next();
 };

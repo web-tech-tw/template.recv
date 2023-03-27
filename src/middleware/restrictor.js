@@ -72,5 +72,7 @@ module.exports = (max, ttl, isParam) => (req, res, next) => {
         }
         increaseValue();
     });
+
+    // Call next middleware
     next();
 };

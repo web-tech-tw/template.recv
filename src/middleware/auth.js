@@ -54,19 +54,21 @@ module.exports = async (req, _, next) => {
         await authMethod(secret) :
         authMethod(secret);
 
+    if (!isProduction()) {
+        console.warn(
+            "An authentication detected: ",
+            authMethod,
+            authResult,
+            "\n",
+        );
+    }
+
     const {
         userId,
         payload,
         isAborted,
     } = authResult;
     if (isAborted) {
-        if (!isProduction()) {
-            console.warn(
-                "Authentication failed due to: ",
-                payload,
-                "\n",
-            );
-        }
         next();
         return;
     }

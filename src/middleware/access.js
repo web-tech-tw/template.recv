@@ -14,11 +14,21 @@ const {StatusCodes} = require("http-status-codes");
 // set as string, it will find the role whether satisfied,
 // set as null, will check the user whether login only.
 module.exports = (role) => (req, res, next) => {
+    if (!isProduction()) {
+        console.warn(
+            "Access required request detected: ",
+            `role "${role}"`,
+            req.auth,
+            "\n",
+        );
+    }
+
     // Check auth exists
     if (!(req.auth && req.auth.id)) {
         res.sendStatus(StatusCodes.UNAUTHORIZED);
         return;
     }
+
     // Accept SARA or TEST only
     if (
         req.auth.method !== "SARA" &&
@@ -27,16 +37,20 @@ module.exports = (role) => (req, res, next) => {
         res.sendStatus(StatusCodes.METHOD_NOT_ALLOWED);
         return;
     }
+
     // Read roles from metadata
     const userRoles = req.auth.metadata?.user?.roles;
     if (!(userRoles && Array.isArray(userRoles))) {
         res.sendStatus(StatusCodes.BAD_REQUEST);
         return;
     }
+
     // Check permission
     if (role && !userRoles.includes(role)) {
         res.sendStatus(StatusCodes.FORBIDDEN);
         return;
     }
+
+    // Call next middleware
     next();
 };
