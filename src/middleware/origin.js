@@ -10,15 +10,15 @@ const {StatusCodes} = require("http-status-codes");
 
 // Export (function)
 module.exports = (req, res, next) => {
-    const actualUrl = getMust("CORS_ORIGIN");
-    const expectUrl = req.header("Origin");
-    if (actualUrl !== expectUrl) {
+    const actualUrl = req.header("Origin");
+    const expectedUrl = getMust("CORS_ORIGIN");
+    if (actualUrl !== expectedUrl) {
         if (!isProduction()) {
             // Debug message
             console.warn(
                 "CORS origin header mismatch:",
                 `actual "${actualUrl}"`,
-                `expect "${expectUrl}"`,
+                `expected "${expectedUrl}"`,
             );
         }
         res.sendStatus(StatusCodes.FORBIDDEN);

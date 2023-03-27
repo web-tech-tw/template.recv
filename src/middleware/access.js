@@ -40,14 +40,20 @@ module.exports = (role) => (req, res, next) => {
     }
 
     // Read roles from metadata
-    const userRoles = req.auth.metadata?.user?.roles;
-    if (!(userRoles && Array.isArray(userRoles))) {
-        res.sendStatus(StatusCodes.BAD_REQUEST);
-        return;
-    }
+    const userRoles = req.auth.metadata?.profile?.roles;
+    const isUserRolesValid = Array.isArray(userRoles);
 
     // Check permission
-    if (role && !userRoles.includes(role)) {
+    if (!role || !isUserRolesValid || !userRoles.includes(role)) {
+        if (!isProduction()) {
+            // Debug message
+            console.warn(
+                "An access required request forbidden:",
+                `actual "${userRoles.join(", ")}"`,
+                `expected "${role}"`,
+                "\n",
+            );
+        }
         res.sendStatus(StatusCodes.FORBIDDEN);
         return;
     }
