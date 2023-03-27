@@ -33,7 +33,7 @@ async function validate(token) {
                 "Authorization": `SARA ${token}`,
             },
         });
-        result.userId = authResponse.data._id;
+        result.userId = authResponse.data.profile._id;
         result.payload = authResponse.data;
     } catch (e) {
         result.isAborted = true;

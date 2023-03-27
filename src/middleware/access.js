@@ -17,7 +17,7 @@ module.exports = (role) => (req, res, next) => {
     if (!isProduction()) {
         // Debug message
         console.warn(
-            "An access required request detected: ",
+            "An access required request detected:",
             `role "${role}"`,
             req.auth,
             "\n",

@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
         if (!isProduction()) {
             // Debug message
             console.warn(
-                "A bad request received: ",
+                "A bad request received:",
                 errors,
             );
         }

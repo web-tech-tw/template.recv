@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
         if (!isProduction()) {
             // Debug message
             console.warn(
-                "Pure HTTP protocol detected: ",
+                "Pure HTTP protocol detected:",
                 `from "${req.hostname}"`,
                 `with host header "${req.headers.host}"`,
                 `with origin header "${req.headers.origin}"`,

@@ -51,7 +51,7 @@ module.exports = (max, ttl, isParam) => (req, res, next) => {
         if (!isProduction()) {
             // Debug message
             console.warn(
-                "Too many unauthorized requests received: ",
+                "Too many unauthorized requests received:",
                 `actual "${keyValue}"`,
                 `expect "${max}"`,
             );
@@ -68,7 +68,7 @@ module.exports = (max, ttl, isParam) => (req, res, next) => {
         if (!isProduction()) {
             // Debug message
             console.warn(
-                "An unauthorized request detected: ",
+                "An unauthorized request detected:",
                 queryKey,
             );
         }
