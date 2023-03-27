@@ -14,6 +14,7 @@ module.exports = (req, res, next) => {
     const expectUrl = req.header("Origin");
     if (actualUrl !== expectUrl) {
         if (!isProduction()) {
+            // Debug message
             console.warn(
                 "CORS origin header mismatch: ",
                 `actual "${actualUrl}"`,

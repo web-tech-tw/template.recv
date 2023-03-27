@@ -11,6 +11,7 @@ const {StatusCodes} = require("http-status-codes");
 module.exports = (req, res, next) => {
     if (req.protocol === "http") {
         if (!isProduction()) {
+            // Debug message
             console.warn(
                 "Pure HTTP protocol detected: ",
                 `from "${req.hostname}"`,

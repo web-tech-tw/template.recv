@@ -15,8 +15,9 @@ const {StatusCodes} = require("http-status-codes");
 // set as null, will check the user whether login only.
 module.exports = (role) => (req, res, next) => {
     if (!isProduction()) {
+        // Debug message
         console.warn(
-            "Access required request detected: ",
+            "An access required request detected: ",
             `role "${role}"`,
             req.auth,
             "\n",

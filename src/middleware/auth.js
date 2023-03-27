@@ -55,6 +55,7 @@ module.exports = async (req, _, next) => {
         authMethod(secret);
 
     if (!isProduction()) {
+        // Debug message
         console.warn(
             "An authentication detected: ",
             authMethod,

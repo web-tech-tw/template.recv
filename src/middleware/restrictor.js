@@ -49,6 +49,7 @@ module.exports = (max, ttl, isParam) => (req, res, next) => {
 
     if (keyValue > max) {
         if (!isProduction()) {
+            // Debug message
             console.warn(
                 "Too many unauthorized requests received: ",
                 `actual "${keyValue}"`,
@@ -65,6 +66,7 @@ module.exports = (max, ttl, isParam) => (req, res, next) => {
             return;
         }
         if (!isProduction()) {
+            // Debug message
             console.warn(
                 "An unauthorized request detected: ",
                 queryKey,
