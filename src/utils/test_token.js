@@ -48,18 +48,14 @@ function validate(token) {
     };
 
     try {
-        const data = JSON.parse(
+        const profile = JSON.parse(
             Buffer.
                 from(token, "base64").
                 toString("utf-8"),
         );
+        const payload = {profile};
 
-        const payload = {
-            sub: data.id,
-            user: data,
-        };
-
-        result.userId = payload.sub;
+        result.userId = payload.id;
         result.payload = payload;
     } catch (e) {
         result.isAborted = true;
