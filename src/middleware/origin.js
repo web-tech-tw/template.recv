@@ -3,15 +3,23 @@
 // if not, interrupt it.
 
 // Import config
-const {getMust} = require("../config");
+const {isProduction, getMust} = require("../config");
 
 // Import StatusCodes
 const {StatusCodes} = require("http-status-codes");
 
 // Export (function)
 module.exports = (req, res, next) => {
-    const originUrl = req.header("Origin");
-    if (originUrl !== getMust("CORS_ORIGIN")) {
+    const actualUrl = getMust("CORS_ORIGIN");
+    const expectUrl = req.header("Origin");
+    if (actualUrl !== expectUrl) {
+        if (!isProduction()) {
+            console.warn(
+                "CORS origin header mismatch: ",
+                `actual "${actualUrl}"`,
+                `expect "${expectUrl}"`,
+            );
+        }
         res.sendStatus(StatusCodes.FORBIDDEN);
         return;
     }

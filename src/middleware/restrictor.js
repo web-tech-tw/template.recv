@@ -1,6 +1,9 @@
 "use strict";
 // The solution to defense from brute-force attacks,
 
+// Import isProduction
+const {isProduction} = require("../config");
+
 // Import StatusCodes
 const {StatusCodes} = require("http-status-codes");
 
@@ -45,6 +48,13 @@ module.exports = (max, ttl, isParam) => (req, res, next) => {
     };
 
     if (keyValue > max) {
+        if (!isProduction()) {
+            console.warn(
+                "Too many unauthorized requests received: ",
+                `actual "${keyValue}"`,
+                `expect "${max}"`,
+            );
+        }
         res.sendStatus(StatusCodes.TOO_MANY_REQUESTS);
         increaseValue();
         return;
@@ -53,6 +63,12 @@ module.exports = (max, ttl, isParam) => (req, res, next) => {
     res.on("finish", () => {
         if (res.statusCode !== StatusCodes.UNAUTHORIZED) {
             return;
+        }
+        if (!isProduction()) {
+            console.warn(
+                "An unauthorized request detected: ",
+                queryKey,
+            );
         }
         increaseValue();
     });

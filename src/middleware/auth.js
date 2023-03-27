@@ -4,7 +4,10 @@
 // To interrupt the request which without the request,
 // please use "access.js" middleware.
 
-// Import StatusCodes
+// Import isProduction
+const {isProduction} = require("../config");
+
+// Import isObjectPropExists
 const {isObjectPropExists} = require("../utils/native");
 
 const saraTokenAuth = require("../utils/sara_token");
@@ -16,6 +19,7 @@ const authMethods = {
     "TEST": testTokenAuth.validate,
 };
 
+// Check if the function will return a Promise
 const isAsync = (func) =>
     func.constructor.name === "AsyncFunction";
 
@@ -56,6 +60,13 @@ module.exports = async (req, _, next) => {
         isAborted,
     } = authResult;
     if (isAborted) {
+        if (!isProduction()) {
+            console.warn(
+                "Authentication failed due to: ",
+                payload,
+                "\n",
+            );
+        }
         next();
         return;
     }

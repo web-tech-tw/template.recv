@@ -3,7 +3,7 @@
 // and interrupt if the requirement is not satisfied.
 // (for Sara only)
 
-// Import config
+// Import isProduction
 const {isProduction} = require("../config");
 
 // Import StatusCodes

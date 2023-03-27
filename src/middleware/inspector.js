@@ -2,6 +2,9 @@
 // Interrupt the request
 // which is not satisfied the result from express-validator.
 
+// Import isProduction
+const {isProduction} = require("../config");
+
 // Import StatusCodes
 const {StatusCodes} = require("http-status-codes");
 
@@ -14,6 +17,14 @@ module.exports = (req, res, next) => {
     if (errors.isEmpty()) {
         next();
     } else {
-        res.status(StatusCodes.BAD_REQUEST).json({errors: errors.array()});
+        if (!isProduction()) {
+            console.warn(
+                "A bad request received: ",
+                errors,
+            );
+        }
+        res.
+            status(StatusCodes.BAD_REQUEST).
+            json({errors: errors.array()});
     }
 };
