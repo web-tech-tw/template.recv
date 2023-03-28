@@ -24,9 +24,6 @@ const router = newRouter();
 // Request body parser middleware
 router.use(express.urlencoded({extended: true}));
 
-// Auth middleware
-router.use(require("../middleware/auth"));
-
 // Example to show time
 router.get("/now", (_, res) => {
     res.send({timestamp: getPosixTimestamp()});
