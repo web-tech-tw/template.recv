@@ -9,8 +9,8 @@ const {StatusCodes} = require("http-status-codes");
 // Import useApp, express
 const {useApp, express} = require("../init/express");
 
-const {getIPAddress, getUserAgent} = require("../utils/visitor");
-const {getPosixTimestamp} = require("../utils/native");
+const utilVisitor = require("../utils/visitor");
+const utilNative = require("../utils/native");
 
 const middlewareValidator = require("express-validator");
 const middlewareAccess = require("../middleware/access");
@@ -26,14 +26,14 @@ router.use(express.urlencoded({extended: true}));
 
 // Example to show time
 router.get("/now", (_, res) => {
-    res.send({timestamp: getPosixTimestamp()});
+    res.send({timestamp: utilNative.getPosixTimestamp()});
 });
 
 // Example to show the visitor's IP and User-Agent with utils/visitor
 router.get("/visitor", (req, res) => {
     res.send({
-        ip_address: getIPAddress(req),
-        user_agent: getUserAgent(req),
+        ip_address: utilVisitor.getIPAddress(req),
+        user_agent: utilVisitor.getUserAgent(req),
     });
 });
 
