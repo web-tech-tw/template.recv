@@ -3,7 +3,7 @@
 
 /**
  * Get IP Address.
- * @module ip_address
+ * @module visitor
  * @function
  * @param {object} req the request
  * @return {string} the IP Address
@@ -14,7 +14,7 @@ function getIPAddress(req) {
 
 /**
  * Get User-Agent.
- * @module ip_address
+ * @module visitor
  * @function
  * @param {object} req the request
  * @return {string} the User-Agent
