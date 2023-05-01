@@ -37,7 +37,8 @@ app.get("/robots.txt", (_, res) => {
 });
 
 // Map routes
-require("./src/routes/index")();
+const routerDispatcher = require("./src/routes/index");
+routerDispatcher.load();
 
 // Show banner message
 (() => {

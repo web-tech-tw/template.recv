@@ -1,11 +1,13 @@
 "use strict";
 
-// Routes
-const routes = [
-    require("./example"),
+// Routers
+exports.routerFiles = [
+    "./example.js",
+    "./swagger.js",
 ];
 
 // Load routes
-module.exports = () => {
-    routes.forEach((c) => c());
+exports.load = () => {
+    const routerMappers = exports.routerFiles.map((n) => require(n));
+    routerMappers.forEach((c) => c());
 };

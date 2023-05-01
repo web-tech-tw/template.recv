@@ -24,12 +24,35 @@ const router = newRouter();
 // Request body parser middleware
 router.use(express.urlencoded({extended: true}));
 
-// Example to show time
+/**
+ * @openapi
+ * /example/now:
+ *   get:
+ *     tags:
+ *       - example
+ *     summary: Get POSIX timestamp
+ *     description: Example to show current POSIX timestamp.
+ *     responses:
+ *       200:
+ *         description: Returns current POSIX timestamp.
+ */
 router.get("/now", (_, res) => {
     res.send({timestamp: utilNative.getPosixTimestamp()});
 });
 
-// Example to show the visitor's IP and User-Agent with utils/visitor
+/**
+ * @openapi
+ * /example/visitor:
+ *   get:
+ *     tags:
+ *       - example
+ *     summary: Get current visitor information
+ *     description: Example to show the visitor's IP and
+ *                  User-Agent with utils/visitor.
+ *     responses:
+ *       200:
+ *         description: Returns current visitor information.
+ */
 router.get("/visitor", (req, res) => {
     res.send({
         ip_address: utilVisitor.getIPAddress(req),
@@ -37,12 +60,36 @@ router.get("/visitor", (req, res) => {
     });
 });
 
-// Example to return the application environment
+/**
+ * @openapi
+ * /example/env:
+ *   get:
+ *     tags:
+ *       - example
+ *     summary: Get the application environment
+ *     description: Example to return the application environment.
+ *     responses:
+ *       200:
+ *         description: Returns the application environment.
+ */
 router.get("/env", (_, res) => {
     res.send(getEnvironmentOverview());
 });
 
-// Example to check fields with middlewareValidator
+/**
+ * @openapi
+ * /example/empty:
+ *   get:
+ *     tags:
+ *       - example
+ *     summary: Empty field checks
+ *     description: Example to check fields with middlewareValidator
+ *     responses:
+ *       200:
+ *         description: Returns a mysterious string.
+ *       400:
+ *         description: Returns a mysterious string.
+ */
 router.get("/empty",
     middlewareValidator.query("empty").isEmpty(),
     middlewareInspector, (_, res) => {
@@ -54,12 +101,34 @@ router.get("/empty",
     },
 );
 
-// Example to test auth works
+/**
+ * @openapi
+ * /example/auth:
+ *   get:
+ *     tags:
+ *       - example
+ *     summary: Get auth information
+ *     description: Example to test auth works
+ *     responses:
+ *       200:
+ *         description: Returns current visitor's auth information.
+ */
 router.get("/auth", (req, res) => {
     res.send(req.auth);
 });
 
-// Example to check admin role with middlewareAccess
+/**
+ * @openapi
+ * /example/admin:
+ *   get:
+ *     tags:
+ *       - example
+ *     summary: Test access information
+ *     description: Example to check admin role with middlewareAccess
+ *     responses:
+ *       200:
+ *         description: Returns a hello-world message and admin's identity.
+ */
 router.get("/admin", middlewareAccess("admin"), (req, res) => {
     res.send({
         "message": "Hello, Admin!",
@@ -67,7 +136,25 @@ router.get("/admin", middlewareAccess("admin"), (req, res) => {
     });
 });
 
-// Example to show how the restrictor works
+/**
+ * @openapi
+ * /example/guess/{code}:
+ *   get:
+ *     tags:
+ *       - example
+ *     summary: Test restrictor works
+ *     description: Example to show how the restrictor works
+ *     parameters:
+ *       - in: path
+ *         name: code
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The passphrase, the true answer is "qwertyuiop".
+ *     responses:
+ *       200:
+ *         description: Returns a mysterious string.
+ */
 const trustedCode = "qwertyuiop";
 router.get("/guess/:code",
     middlewareRestrictor(5, 30, true),
@@ -77,7 +164,7 @@ router.get("/guess/:code",
             res.sendStatus(StatusCodes.UNAUTHORIZED);
             return;
         }
-        res.send(`Hello! ${untrustedCode}`);
+        res.send(`Hello! ${trustedCode}`);
     },
 );
 
