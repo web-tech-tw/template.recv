@@ -147,7 +147,7 @@ router.get("/tester", (req, res) => {
  *     tags:
  *       - example
  *     summary: Get auth information
- *     description: Example to test auth works
+ *     description: Example to test middlewareAuth works.
  *     security:
  *       - ApiKeyAuth: []
  *     responses:
@@ -168,7 +168,7 @@ router.get("/auth", (req, res) => {
  *     tags:
  *       - example
  *     summary: Test access information
- *     description: Example to check admin role with middlewareAccess
+ *     description: Example to check admin role with middlewareAccess.
  *     security:
  *       - ApiKeyAuth: []
  *     responses:
@@ -192,7 +192,7 @@ router.get("/admin", middlewareAccess("admin"), (req, res) => {
  *     tags:
  *       - example
  *     summary: Test restrictor works
- *     description: Example to show how the restrictor works
+ *     description: Example to show how the restrictor works.
  *     parameters:
  *       - in: path
  *         name: code
