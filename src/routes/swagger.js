@@ -23,6 +23,15 @@ const options = {
                 url: "https://web-tech-tw.github.io",
             },
         },
+        components: {
+            securitySchemes: {
+                ApiKeyAuth: {
+                    type: "apiKey",
+                    in: "header",
+                    name: "Authorization",
+                },
+            },
+        },
     },
     apis: routerFiles.map(
         (f) => pathJoin(__dirname, f),

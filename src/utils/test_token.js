@@ -12,6 +12,14 @@ const DEFAULT_FAKE_USER = {
 };
 
 /**
+ * Returns a new user profile
+ * @return {object}
+ */
+function newProfile() {
+    return structuredClone(DEFAULT_FAKE_USER);
+}
+
+/**
  * Issue token
  * @module test_token
  * @function
@@ -67,6 +75,7 @@ function validate(token) {
 
 // Export (object)
 module.exports = {
+    newProfile,
     issue,
     validate,
 };
