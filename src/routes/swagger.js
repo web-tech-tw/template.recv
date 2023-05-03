@@ -1,6 +1,6 @@
 "use strict";
 
-const {isProduction} = require("../config");
+const {getEnabled} = require("../config");
 const {APP_NAME} = require("../init/const");
 
 const {useApp, express} = require("../init/express");
@@ -47,8 +47,8 @@ router.use("/", swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 // Export routes mapper (function)
 module.exports = () => {
-    // Skip if production
-    if (isProduction()) {
+    // Skip if swagger disabled
+    if (!getEnabled("ENABLED_SWAGGER")) {
         return;
     }
 
