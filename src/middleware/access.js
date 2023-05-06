@@ -10,15 +10,15 @@ const {isProduction} = require("../config");
 const {StatusCodes} = require("http-status-codes");
 
 // Export (function)
-// role can be string or null,
+// requiredRole can be string or null,
 // set as string, it will find the role whether satisfied,
 // set as null, will check the user whether login only.
-module.exports = (role) => (req, res, next) => {
+module.exports = (requiredRole) => (req, res, next) => {
     if (!isProduction()) {
         // Debug message
         console.warn(
             "An access required request detected:",
-            `role "${role}"`,
+            `role "${requiredRole}"`,
             req.auth,
             "\n",
         );
@@ -40,17 +40,20 @@ module.exports = (role) => (req, res, next) => {
     }
 
     // Read roles from metadata
-    const userRoles = req.auth.metadata?.profile?.roles;
+    const userRoles = req.auth.metadata?.user?.roles;
     const isUserRolesValid = Array.isArray(userRoles);
 
     // Check permission
-    if (!role || !isUserRolesValid || !userRoles.includes(role)) {
+    if (
+        requiredRole &&
+        (!isUserRolesValid || !userRoles.includes(requiredRole))
+    ) {
         if (!isProduction()) {
             // Debug message
             console.warn(
                 "An access required request forbidden:",
                 `actual "${userRoles.join(", ")}"`,
-                `expected "${role}"`,
+                `expected "${requiredRole}"`,
                 "\n",
             );
         }

@@ -28,7 +28,7 @@ async function validate(token) {
     };
 
     try {
-        const authResponse = await client.get("/profile", {
+        const authResponse = await client.get("/users/me", {
             headers: {
                 "Authorization": `SARA ${token}`,
             },
