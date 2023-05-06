@@ -25,7 +25,7 @@ const isAsync = (func) =>
 
 // Export (function)
 module.exports = async (req, _, next) => {
-    const authCode = req.header("Authorization");
+    const authCode = req.header("authorization");
     if (!authCode) {
         next();
         return;
