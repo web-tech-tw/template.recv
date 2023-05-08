@@ -1,6 +1,6 @@
 "use strict";
 
-const {getEnabled} = require("../config");
+const {getEnabled, getMust} = require("../config");
 const {APP_NAME} = require("../init/const");
 
 const {useApp, express} = require("../init/express");
@@ -23,6 +23,10 @@ const options = {
                 url: "https://web-tech-tw.github.io",
             },
         },
+        servers: [{
+            description: getMust("SWAGGER_SERVER_DESCRIPTION"),
+            url: getMust("SWAGGER_SERVER_URL"),
+        }],
         components: {
             securitySchemes: {
                 ApiKeyAuth: {
