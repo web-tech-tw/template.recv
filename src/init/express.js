@@ -2,7 +2,7 @@
 // express.js is a web framework.
 
 // Import config
-const {getMust, getEnabled} = require("../config");
+const {getEnabled} = require("../config");
 
 // Import express.js
 const express = require("express");
@@ -18,21 +18,26 @@ const middlewareAuth = require("../middleware/auth");
 app.use(middlewareRequestIp);
 app.use(middlewareAuth);
 
+// Read config
+const isEnabledRedirectHttpHttps = getEnabled("ENABLED_REDIRECT_HTTP_HTTPS");
+const isEnabledCors = getEnabled("ENABLED_CORS");
+const isEnabledCorsOriginCheck = getEnabled("ENABLED_CORS_ORIGIN_CHECK");
+
 // Optional middleware
-if (getEnabled("ENABLED_REDIRECT_HTTP_HTTPS")) {
+if (isEnabledRedirectHttpHttps) {
+    const middlewareHttpsRedirect = require("../middleware/https_redirect");
     // Do https redirects
-    app.use(require("../middleware/https_redirect"));
+    app.use(middlewareHttpsRedirect);
 }
-if (getEnabled("ENABLED_CORS")) {
-    // Do global CORS handler
-    const cors = require("cors");
-    app.use(cors({
-        origin: getMust("CORS_ORIGIN"),
-    }));
-    if (getEnabled("ENABLED_CORS_ORIGIN_CHECK")) {
-        // Check header "Origin"
-        app.use(require("../middleware/origin"));
-    }
+if (isEnabledCors) {
+    const middlewareCORS = require("../middleware/cors");
+    // Do CORS handles
+    app.use(middlewareCORS);
+}
+if (isEnabledCors && isEnabledCorsOriginCheck) {
+    const middlewareOrigin = require("../middleware/origin");
+    // Check header "Origin" for CORS
+    app.use(middlewareOrigin);
 }
 
 // Export useFunction
