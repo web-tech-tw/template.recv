@@ -23,7 +23,7 @@ const {Router: newRouter} = express;
 const router = newRouter();
 
 // Request body parser middleware
-router.use(express.urlencoded({extended: true}));
+router.use(express.json());
 
 /**
  * @openapi
