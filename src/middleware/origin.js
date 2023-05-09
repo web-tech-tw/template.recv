@@ -3,7 +3,7 @@
 // if not, interrupt it.
 
 // Import config
-const {isProduction, getMust} = require("../config");
+const {isProduction, getMust, getEnabled} = require("../config");
 
 // Import StatusCodes
 const {StatusCodes} = require("http-status-codes");
@@ -33,6 +33,24 @@ module.exports = (req, res, next) => {
             // Debug message
             console.warn(
                 "CORS origin header match:",
+                `actual "${actualUrl}"`,
+                `expected "${expectedUrl}"`,
+            );
+        }
+        next();
+        return;
+    }
+
+    // Get URLs
+    const isEnabledSwagger = getEnabled("ENABLED_SWAGGER");
+    const expectedSwaggerUrl = getMust("SWAGGER_CORS_ORIGIN");
+
+    // Origin from Swagger match
+    if (isEnabledSwagger && actualUrl === expectedSwaggerUrl) {
+        if (!isProduction()) {
+            // Debug message
+            console.warn(
+                "CORS origin header from Swagger match:",
                 `actual "${actualUrl}"`,
                 `expected "${expectedUrl}"`,
             );
