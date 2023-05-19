@@ -22,13 +22,13 @@ const {useApp} = require("./src/init/express");
 // Initialize application
 const app = useApp();
 
-// Initialize preparing promises
+// Initialize preparing handlers
 const {
-    preparingPromise: databasePareparing,
+    prepare: prepareDatabase,
 } = require("./src/init/database");
 
-const preparingPromises = [
-    databasePareparing,
+const prepareHandlers = [
+    prepareDatabase,
 ];
 
 // Redirect / to INDEX_REDIRECT_URL
@@ -58,7 +58,7 @@ routerDispatcher.load();
 })();
 
 // Mount application and execute it
-require("./src/execute")(app, preparingPromises,
+require("./src/execute")(app, prepareHandlers,
     ({protocol, hostname, port}) => {
         console.info(`Protocol "${protocol}" is listening at`);
         console.info(`${protocol}://${hostname}:${port}`);

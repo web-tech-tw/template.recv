@@ -38,9 +38,10 @@ function setupHttpsProtocol(app, callback) {
 }
 
 // Prepare application and detect protocols automatically
-module.exports = async function(app, preparingPromises, callback) {
-    // Waiting for preparing promises
-    if (preparingPromises.length > 0) {
+module.exports = async function(app, prepareHandlers, callback) {
+    // Waiting for prepare handlers
+    if (prepareHandlers.length > 0) {
+        const preparingPromises = prepareHandlers.map((c) => c());
         await Promise.all(preparingPromises);
     }
 

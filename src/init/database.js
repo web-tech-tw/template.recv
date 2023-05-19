@@ -11,7 +11,7 @@ const database = require("mongoose");
 database.set("strictQuery", true);
 
 // Connect to MongoDB
-exports.preparingPromise =
+exports.prepare = () =>
     database.connect(getMust("MONGODB_URI"));
 
 // Export as useFunction
