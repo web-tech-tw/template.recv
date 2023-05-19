@@ -9,7 +9,7 @@ const http = require("node:http");
 const https = require("node:https");
 
 /**
- * Setup http protocol (general)
+ * Setup protocol - http
  * @param {object} app
  * @param {function} callback
  */
@@ -18,11 +18,11 @@ function setupHttpProtocol(app, callback) {
     const httpServer = http.createServer(options, app);
     const port = parseInt(getMust("HTTP_PORT"));
     httpServer.listen(port, getMust("HTTP_HOSTNAME"));
-    callback({type: "general", hostname: getMust("HTTP_HOSTNAME"), port});
+    callback({protocol: "http", hostname: getMust("HTTP_HOSTNAME"), port});
 }
 
 /**
- * Setup https protocol (secure)
+ * Setup protocol - https
  * @param {object} app
  * @param {function} callback
  */
@@ -34,19 +34,25 @@ function setupHttpsProtocol(app, callback) {
     const httpsServer = https.createServer(options, app);
     const port = parseInt(getMust("HTTPS_PORT"));
     httpsServer.listen(port, getMust("HTTPS_HOSTNAME"));
-    callback({type: "secure", hostname: getMust("HTTPS_HOSTNAME"), port});
+    callback({protocol: "https", hostname: getMust("HTTPS_HOSTNAME"), port});
 }
 
-// Detect protocols automatically
-module.exports = function(app, callback) {
+// Prepare application and detect protocols automatically
+module.exports = async function(app, preparingPromises, callback) {
+    // Waiting for preparing promises
+    if (preparingPromises.length > 0) {
+        await Promise.all(preparingPromises);
+    }
+
+    // Get enabled protocols
     const enabledProtocols = getSplited("ENABLED_PROTOCOLS");
 
-    // http
+    // Setup HTTP
     if (enabledProtocols.includes("http")) {
         setupHttpProtocol(app, callback);
     }
 
-    // https
+    // Setup HTTPS
     if (enabledProtocols.includes("https")) {
         setupHttpsProtocol(app, callback);
     }

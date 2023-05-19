@@ -22,6 +22,15 @@ const {useApp} = require("./src/init/express");
 // Initialize application
 const app = useApp();
 
+// Initialize preparing promises
+const {
+    preparingPromise: mongoosePareparing,
+} = require("./src/init/database");
+
+const preparingPromises = [
+    mongoosePareparing,
+];
+
 // Redirect / to INDEX_REDIRECT_URL
 app.get("/", (_, res) => {
     const redirectCode = getMust("INDEX_REDIRECT_TYPE") === "permanent" ?
@@ -36,8 +45,8 @@ app.get("/robots.txt", (_, res) => {
     res.type("txt").send("User-agent: *\nDisallow: /");
 });
 
-// Map routes
-const routerDispatcher = require("./src/routes/index");
+// Load router dispatcher
+const routerDispatcher = require("./src/routes");
 routerDispatcher.load();
 
 // Show banner message
@@ -47,9 +56,11 @@ routerDispatcher.load();
     const statusMessage = `(environment: ${node}, ${runtime})`;
     console.info(appName, statusMessage, "\n====");
 })();
+
 // Mount application and execute it
-require("./src/execute")(app, ({type, hostname, port}) => {
-    const protocol = type === "general" ? "http" : "https";
-    console.info(`Protocol "${protocol}" is listening at`);
-    console.info(`${protocol}://${hostname}:${port}`);
-});
+require("./src/execute")(app, preparingPromises,
+    ({protocol, hostname, port}) => {
+        console.info(`Protocol "${protocol}" is listening at`);
+        console.info(`${protocol}://${hostname}:${port}`);
+    },
+);
