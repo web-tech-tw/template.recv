@@ -24,11 +24,11 @@ const app = useApp();
 
 // Initialize preparing promises
 const {
-    preparingPromise: mongoosePareparing,
+    preparingPromise: databasePareparing,
 } = require("./src/init/database");
 
 const preparingPromises = [
-    mongoosePareparing,
+    databasePareparing,
 ];
 
 // Redirect / to INDEX_REDIRECT_URL
