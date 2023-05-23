@@ -22,7 +22,7 @@ const {useApp} = require("./src/init/express");
 // Initialize application
 const app = useApp();
 
-// Initialize preparing handlers
+// Initialize prepare handlers
 const {
     prepare: prepareDatabase,
 } = require("./src/init/database");
