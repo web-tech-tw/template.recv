@@ -7,7 +7,7 @@
   "license": "MIT",
   "main": "app.js",
   "scripts": {
-    "gen-doc": "node gen_doc.js",
+    "export-openapi": "node export_openapi.js",
     "dev": "nodemon app.js",
     "start": "node app.js",
     "lint": "npx lint-staged",
