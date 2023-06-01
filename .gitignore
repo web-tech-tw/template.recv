@@ -4,6 +4,9 @@
 # Finder config file
 .DS_Store
 
+# OpenAPI exported file
+openapi_exported.json
+
 # Directories
 .nyc_output
 coverage
