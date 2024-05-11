@@ -5,6 +5,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
+    container_name: local-app
     volumes:
       - ../..:/workspaces:cached
     command: sleep infinity
@@ -12,13 +13,15 @@ services:
 
   mongo:
     image: mongo:latest
+    container_name: local-mongo
     restart: unless-stopped
 
   express:
     image: mongo-express:latest
+    container_name: local-express
     restart: unless-stopped
     environment:
       ME_CONFIG_BASICAUTH_USERNAME: developer
       ME_CONFIG_BASICAUTH_PASSWORD: developer
-      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_SERVER: local-mongo
     network_mode: service:mongo
