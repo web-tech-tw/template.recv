@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A tiny but powerful microservice framework.",
   "author": "Taiwan Web Technology Promotion Organization",
-  "homepage": "https://web-tech-tw.github.io",
+  "homepage": "https://web-tech.tw",
   "license": "MIT",
   "main": "app.js",
   "scripts": {
