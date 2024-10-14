@@ -61,10 +61,11 @@ function validate(token) {
                 from(token, "base64").
                 toString("utf-8"),
         );
-        const payload = {profile};
 
-        result.userId = payload.profile._id;
-        result.payload = payload;
+        result.userId = profile._id;
+        result.payload = {
+            profile,
+        };
     } catch (e) {
         result.isAborted = true;
         result.payload = e;

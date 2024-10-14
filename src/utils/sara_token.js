@@ -48,8 +48,11 @@ async function validate(token) {
         const {payload} = verify(
             token, publicKey, verifyOptions,
         );
+
         result.userId = payload.sub;
-        result.payload = payload;
+        result.payload = {
+            profile: payload.user,
+        };
     } catch (e) {
         result.isAborted = true;
         result.payload = e;
