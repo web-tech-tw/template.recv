@@ -1,4 +1,5 @@
 # App config files
+keypair_*
 .env
 
 # Finder config file

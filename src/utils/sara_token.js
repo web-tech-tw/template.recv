@@ -4,14 +4,30 @@
 // Import config
 const {getMust} = require("../config");
 
+// Import modules
 const axios = require("axios");
 
+const {verify} = require("jsonwebtoken");
+const {usePublicKey} = require("../init/keypair");
+
+// Define Sara Token specs
+const issuerIdentity = "Sara Hoshikawa"; // The code of Sara v3
+
+// Define client
 const client = axios.create({
     baseURL: getMust("SARA_RECV_HOST"),
     headers: {
         "User-Agent": "sara_client/2.0",
     },
 });
+
+// Define verifyOptions
+const verifyOptions = {
+    algorithms: ["ES256"],
+    issuer: issuerIdentity,
+    audience: getMust("SARA_AUDIENCE_URL"),
+    complete: true,
+};
 
 /**
  * Validate token
@@ -28,13 +44,12 @@ async function validate(token) {
     };
 
     try {
-        const authResponse = await client.get("/users/me", {
-            headers: {
-                "Authorization": `SARA ${token}`,
-            },
-        });
-        result.userId = authResponse.data.profile._id;
-        result.payload = authResponse.data;
+        const publicKey = usePublicKey();
+        const {payload} = verify(
+            token, publicKey, verifyOptions,
+        );
+        result.userId = payload.sub;
+        result.payload = payload;
     } catch (e) {
         result.isAborted = true;
         result.payload = e;
@@ -45,5 +60,6 @@ async function validate(token) {
 
 // Export (object)
 module.exports = {
+    client,
     validate,
 };
