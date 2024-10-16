@@ -33,48 +33,58 @@ function getPathKey(req, isParam) {
 // max is the maximum number of requests allowed every IP addresss.
 // ttl is the seconds to unblock the IP address if there no request comes.
 // if ttl set as 0, it will be blocked forever until the software restarted.
-module.exports = (max, ttl, isParam) => (req, res, next) => {
-    const pathKey = getPathKey(req, isParam);
-    const visitorKey = getIPAddress(req);
-    const queryKey = ["restrictor", pathKey, visitorKey].join(":");
+// isParam is the flag to remove the last path from the key.
+// customUnauthorizedStatus is the custom status code
+// for unauthorized request, optional.
+module.exports = (max, ttl, isParam, customUnauthorizedStatus=null) =>
+    (req, res, next) => {
+        const pathKey = getPathKey(req, isParam);
+        const visitorKey = getIPAddress(req);
+        const queryKey = ["restrictor", pathKey, visitorKey].join(":");
 
-    const cache = useCache();
+        const cache = useCache();
 
-    const keyValue = cache.get(queryKey);
+        const keyValue = cache.get(queryKey);
 
-    const increaseValue = () => {
-        const offset = keyValue ? keyValue + 1 : 1;
-        cache.set(queryKey, offset, ttl);
-    };
+        const increaseValue = () => {
+            const offset = keyValue ? keyValue + 1 : 1;
+            cache.set(queryKey, offset, ttl);
+        };
 
-    if (keyValue > max) {
-        if (!isProduction()) {
+        if (keyValue > max) {
+            if (!isProduction()) {
             // Debug message
-            console.warn(
-                "Too many unauthorized requests received:",
-                `actual "${keyValue}"`,
-                `expect "${max}"`,
-            );
-        }
-        res.sendStatus(StatusCodes.TOO_MANY_REQUESTS);
-        increaseValue();
-        return;
-    }
-
-    res.on("finish", () => {
-        if (res.statusCode !== StatusCodes.UNAUTHORIZED) {
+                console.warn(
+                    "Too many unauthorized requests received:",
+                    `actual "${keyValue}"`,
+                    `expect "${max}"`,
+                );
+            }
+            res.sendStatus(StatusCodes.TOO_MANY_REQUESTS);
+            increaseValue();
             return;
         }
-        if (!isProduction()) {
-            // Debug message
-            console.warn(
-                "An unauthorized request detected:",
-                queryKey,
-            );
-        }
-        increaseValue();
-    });
 
-    // Call next middleware
-    next();
-};
+        let unauthorizedStatus = StatusCodes.UNAUTHORIZED;
+        if (customUnauthorizedStatus) {
+            unauthorizedStatus = customUnauthorizedStatus;
+        }
+
+        res.on("finish", () => {
+            if (res.statusCode !== unauthorizedStatus) {
+                return;
+            }
+            if (!isProduction()) {
+            // Debug message
+                console.warn(
+                    "An unauthorized request detected:",
+                    unauthorizedStatus,
+                    queryKey,
+                );
+            }
+            increaseValue();
+        });
+
+        // Call next middleware
+        next();
+    };
