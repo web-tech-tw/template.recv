@@ -4,16 +4,6 @@
 const crypto = require("node:crypto");
 
 /**
- * Get POSIX Timestamp (second)
- * @module native
- * @function
- * @return {number}
- */
-function getPosixTimestamp() {
-    return Math.floor(new Date().getTime() / 1000);
-}
-
-/**
  * Shortcut for hasOwnProperty with safe.
  * @module native
  * @function
@@ -52,7 +42,6 @@ function sha256hex(data) {
 
 // Export (object)
 module.exports = {
-    getPosixTimestamp,
     isObjectPropExists,
     generateRandomCode,
     sha256hex,

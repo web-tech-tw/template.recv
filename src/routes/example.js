@@ -38,7 +38,7 @@ router.use(express.json());
  *         description: Returns current POSIX timestamp.
  */
 router.get("/now", (_, res) => {
-    res.send({timestamp: utilNative.getPosixTimestamp()});
+    res.send({timestamp: Date.now()});
 });
 
 /**
