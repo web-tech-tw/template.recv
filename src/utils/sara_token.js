@@ -7,8 +7,9 @@ const {getMust} = require("../config");
 // Import modules
 const axios = require("axios");
 const {StatusCodes} = require("http-status-codes");
-
 const {verify} = require("jsonwebtoken");
+
+const {useCache} = require("../init/cache");
 const {usePublicKey} = require("../init/keypair");
 
 // Define Sara Token specs
@@ -38,12 +39,22 @@ const verifyOptions = {
  * @return {Promise<boolean>}
  */
 async function isActivated(tokenId) {
+    const queryKey = ["sara_token", tokenId].join(":");
+
+    const cache = useCache();
+    if (cache.has(queryKey)) {
+        return cache.get(queryKey);
+    }
+
     const result = await client.head(`/tokens/${tokenId}`, {
         validateStatus: (status) =>
             status === StatusCodes.OK ||
             status === StatusCodes.NOT_FOUND,
     });
-    return result.status === StatusCodes.OK;
+
+    const isActivated = result.status === StatusCodes.OK;
+    cache.set(queryKey, isActivated, 300);
+    return isActivated;
 }
 
 /**
