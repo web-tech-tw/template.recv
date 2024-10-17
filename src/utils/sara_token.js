@@ -6,6 +6,7 @@ const {getMust} = require("../config");
 
 // Import modules
 const axios = require("axios");
+const {StatusCodes} = require("http-status-codes");
 
 const {verify} = require("jsonwebtoken");
 const {usePublicKey} = require("../init/keypair");
@@ -30,11 +31,27 @@ const verifyOptions = {
 };
 
 /**
+ * Check if token is activated
+ * @module sara_token
+ * @function
+ * @param {string} tokenId - The token id to check.
+ * @return {Promise<boolean>}
+ */
+async function isActivated(tokenId) {
+    const result = await client.head(`/tokens/${tokenId}`, {
+        validateStatus: (status) =>
+            status === StatusCodes.OK ||
+            status === StatusCodes.NOT_FOUND,
+    });
+    return result.status === StatusCodes.OK;
+}
+
+/**
  * Validate token
  * @module sara_token
  * @function
  * @param {string} token - The token to valid.
- * @return {object}
+ * @return {Promise<object>}
  */
 async function validate(token) {
     const result = {
@@ -48,6 +65,10 @@ async function validate(token) {
         const {payload} = verify(
             token, publicKey, verifyOptions,
         );
+
+        if (!await isActivated(payload.jti)) {
+            throw new Error("sara_token is not activated");
+        }
 
         result.userId = payload.sub;
         result.payload = {
