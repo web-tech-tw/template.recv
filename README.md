@@ -14,7 +14,7 @@
 
 本系統採用 node.js 打造，使用 express.js 作為基礎框架，並擴充了許多功能。
 
-推薦運行於 `node.js 18` 以上版本。自帶 docker 範本，可快速部署。
+推薦運行於 `node.js 20` 以上版本。自帶 docker 範本，可快速部署。
 
 - 基於 express.js 擴充的微服務框架，可相容 express.js 的所有功能及生態系統。
 - 採用 commonjs 模組系統，可相容大部分 npm 套件及快速引用模組。
