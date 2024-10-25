@@ -34,9 +34,9 @@ function getPathKey(req, isParam) {
 // ttl is the seconds to unblock the IP address if there no request comes.
 // if ttl set as 0, it will be blocked forever until the software restarted.
 // isParam is the flag to remove the last path from the key.
-// customUnauthorizedStatus is the custom status code
-// for unauthorized request, optional.
-module.exports = (max, ttl, isParam, customUnauthorizedStatus=null) =>
+// customForbiddenStatus is the custom status code
+// for forbidden request, optional.
+module.exports = (max, ttl, isParam, customForbiddenStatus=null) =>
     (req, res, next) => {
         const pathKey = getPathKey(req, isParam);
         const visitorKey = getIPAddress(req);
@@ -55,7 +55,7 @@ module.exports = (max, ttl, isParam, customUnauthorizedStatus=null) =>
             if (!isProduction()) {
             // Debug message
                 console.warn(
-                    "Too many unauthorized requests received:",
+                    "Too many forbidden requests received:",
                     `actual "${keyValue}"`,
                     `expect "${max}"`,
                 );
@@ -65,20 +65,20 @@ module.exports = (max, ttl, isParam, customUnauthorizedStatus=null) =>
             return;
         }
 
-        let unauthorizedStatus = StatusCodes.UNAUTHORIZED;
-        if (customUnauthorizedStatus) {
-            unauthorizedStatus = customUnauthorizedStatus;
+        let forbiddenStatus = StatusCodes.FORBIDDEN;
+        if (customForbiddenStatus) {
+            forbiddenStatus = customForbiddenStatus;
         }
 
         res.on("finish", () => {
-            if (res.statusCode !== unauthorizedStatus) {
+            if (res.statusCode !== forbiddenStatus) {
                 return;
             }
             if (!isProduction()) {
             // Debug message
                 console.warn(
-                    "An unauthorized request detected:",
-                    unauthorizedStatus,
+                    "An forbidden request detected:",
+                    forbiddenStatus,
                     queryKey,
                 );
             }
