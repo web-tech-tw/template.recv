@@ -52,8 +52,7 @@ module.exports = async (req, _, next) => {
         // Debug message
         console.warn(
             "An authentication detected:",
-            authMethod,
-            authResult,
+            method, authResult,
             "\n",
         );
     }
