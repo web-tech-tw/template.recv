@@ -1,6 +1,10 @@
 "use strict";
 // The simple toolbox for fetch visitor information from HTTP request.
 
+const {
+    isProduction,
+} = require("../config");
+
 const uaParser = require("ua-parser-js");
 
 /**
@@ -11,7 +15,10 @@ const uaParser = require("ua-parser-js");
  * @return {string} the IP Address
  */
 function getIPAddress(req) {
-    return req?.clientIp || req.ip;
+    if (!isProduction()) {
+        return "127.0.0.1";
+    }
+    return req.ip;
 }
 
 /**
