@@ -10,18 +10,14 @@ const {isProduction} = require("../config");
 // Import isObjectPropExists
 const {isObjectPropExists} = require("../utils/native");
 
-const saraTokenAuth = require("../utils/sara_token");
+const xaraTokenAuth = require("../utils/xara_token");
 const testTokenAuth = require("../utils/test_token");
 
 // Import authMethods
 const authMethods = {
-    "SARA": saraTokenAuth.validate,
+    "XARA": xaraTokenAuth.validate,
     "TEST": testTokenAuth.validate,
 };
-
-// Check if the function will return a Promise
-const isAsync = (func) =>
-    func.constructor.name === "AsyncFunction";
 
 // Export (function)
 module.exports = async (req, _, next) => {
@@ -50,9 +46,7 @@ module.exports = async (req, _, next) => {
     }
 
     const authMethod = authMethods[method];
-    const authResult = isAsync(authMethod) ?
-        await authMethod(secret) :
-        authMethod(secret);
+    const authResult = await authMethod(secret);
 
     if (!isProduction()) {
         // Debug message
