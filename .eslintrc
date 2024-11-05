@@ -1,9 +1,13 @@
 {
+  "plugins": [
+    "jsdoc"
+  ],
   "extends": [
     "eslint:recommended",
     "google"
   ],
   "rules": {
+    "jsdoc/no-undefined-types": 1,
     "linebreak-style": 1,
     "indent": [
       "error",
