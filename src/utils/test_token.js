@@ -5,7 +5,7 @@
 const {isProduction} = require("../config");
 
 const DEFAULT_FAKE_USER = {
-    _id: "fake_user",
+    _id: "67345206787c5d2b9be61c37",
     nickname: "The Fake User",
     email: "the_fake_user@web-tech.tw",
     roles: [],
