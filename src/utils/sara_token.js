@@ -2,7 +2,7 @@
 // Token utils of Sara.
 
 // Import config
-const {getMust} = require("../config");
+const {getMust, isProduction} = require("../config");
 
 // Import modules
 const axios = require("axios");
@@ -39,8 +39,11 @@ const verifyOptions = {
  * @return {Promise<boolean>}
  */
 async function isActivated(tokenId) {
-    const queryKey = ["sara_token", tokenId].join(":");
+    if (!isProduction()) {
+        return true;
+    }
 
+    const queryKey = ["sara_token", tokenId].join(":");
     const cache = useCache();
     if (cache.has(queryKey)) {
         return cache.get(queryKey);
