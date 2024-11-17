@@ -19,7 +19,7 @@ const issuerIdentity = "Sara Hoshikawa"; // The code of Sara v3
 const client = axios.create({
     baseURL: getMust("SARA_RECV_HOST"),
     headers: {
-        "User-Agent": "sara_client/2.0",
+        "user-agent": "sara_client/2.0",
     },
 });
 
