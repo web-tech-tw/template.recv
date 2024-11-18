@@ -1,23 +1,29 @@
 "use strict";
 
-// Import config
+// Import constants
+const {
+    APP_NAME,
+} = require("./src/init/const");
+
+// Import config loader
 const {
     runLoader,
-    getMust,
-    getEnvironmentOverview,
 } = require("./src/config");
 
 // Load config
 runLoader();
 
-// Import constants
-const constant = require("./src/init/const");
-
-// Import StatusCodes
-const {StatusCodes} = require("http-status-codes");
-
-// Import useApp
-const {useApp} = require("./src/init/express");
+// Import modules
+const {
+    StatusCodes,
+} = require("http-status-codes");
+const {
+    getMust,
+    getEnvironmentOverview,
+} = require("./src/config");
+const {
+    useApp,
+} = require("./src/init/express");
 
 // Initialize application
 const app = useApp();
@@ -51,10 +57,9 @@ routerDispatcher.load();
 
 // Show banner message
 (() => {
-    const {APP_NAME: appName} = constant;
     const {node, runtime} = getEnvironmentOverview();
     const statusMessage = `(environment: ${node}, ${runtime})`;
-    console.info(appName, statusMessage, "\n====");
+    console.info(APP_NAME, statusMessage, "\n====");
 })();
 
 // Mount application and execute it

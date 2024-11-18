@@ -1,9 +1,7 @@
 "use strict";
 // swagger is an api documentation generator (OpenAPI spec.)
 
-// Import modules
-const {getMust} = require("../config");
-
+// Import constants
 const {
     APP_NAME,
     APP_DESCRIPTION,
@@ -12,12 +10,13 @@ const {
     APP_AUTHOR_URL,
 } = require("./const");
 
+// Import modules
 const {join: pathJoin} = require("node:path");
-
 const swaggerJSDoc = require("swagger-jsdoc");
-
+const {getMust} = require("../config");
 const {routerFiles} = require("../routes");
 
+// Define router file path prefix
 const routerFilePathPrefix = pathJoin(__dirname, "..", "routes");
 
 // Config options
@@ -52,5 +51,8 @@ const options = {
     ),
 };
 
-// Export as useFunction
+/**
+ * Composable api documentation.
+ * @return {object} The swagger configuration object.
+ */
 exports.useApiDoc = () => swaggerJSDoc(options);

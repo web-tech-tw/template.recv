@@ -1,10 +1,8 @@
 "use strict";
 // Cross-Origin Resource Sharing
 
-// Import config
+// Import modules
 const {getEnabled, getMust} = require("../config");
-
-// Import cors
 const cors = require("cors");
 
 // Read config

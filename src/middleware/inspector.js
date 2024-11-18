@@ -2,13 +2,9 @@
 // Interrupt the request
 // which is not satisfied the result from express-validator.
 
-// Import isProduction
-const {isProduction} = require("../config");
-
-// Import StatusCodes
+// Import modules
 const {StatusCodes} = require("http-status-codes");
-
-// Import validatorResult
+const {isProduction} = require("../config");
 const {validationResult} = require("express-validator");
 
 // Export (function)

@@ -1,19 +1,16 @@
 "use strict";
 // express.js is a web framework.
 
-// Import config
-const {getSplited, getEnabled} = require("../config");
-
-// Import express.js
+// Import modules
 const express = require("express");
-
-// Create middleware handlers
-const middlewareAuth = require("../middleware/auth");
+const {getSplited, getEnabled} = require("../config");
 
 // Initialize app engine
 const app = express();
 
 // Register global middleware
+const middlewareAuth = require("../middleware/auth");
+// Do authentication
 app.use(middlewareAuth);
 
 // Read config
@@ -45,12 +42,20 @@ if (isEnabledCors && isEnabledCorsOriginCheck) {
     app.use(middlewareOrigin);
 }
 
-// Export useFunction
+/**
+ * Composable application.
+ * @return {express.Application} The express app.
+ */
 exports.useApp = () => app;
 
-// Export withAwait
-exports.withAwait = (fn) => (req, res, next) =>
-    Promise.resolve(fn(req, res, next)).catch(next);
+/**
+ * Wrap express async handler with Promise.
+ * @param {express.Handler} handler - The express handler.
+ * @return {express.Handler} The wrapped express handler.
+ */
+exports.withAwait = (handler) => (req, res, next) => {
+    Promise.resolve(handler(req, res, next)).catch(next);
+};
 
 // Export express for shortcut
 exports.express = express;

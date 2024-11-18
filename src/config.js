@@ -1,11 +1,16 @@
 "use strict";
 
 // Import modules
-const {join: pathJoin} = require("node:path");
-const {existsSync} = require("node:fs");
+const {
+    join: pathJoin,
+} = require("node:path");
+const {
+    existsSync,
+} = require("node:fs");
 
 /**
  * Load configs from system environment variables.
+ * @return {void}
  */
 function runLoader() {
     const dotenvPath = pathJoin(__dirname, "..", ".env");
@@ -28,8 +33,6 @@ function runLoader() {
 
 /**
  * Check is production mode.
- * @module config
- * @function
  * @return {boolean} true if production
  */
 function isProduction() {
@@ -38,8 +41,6 @@ function isProduction() {
 
 /**
  * Get environment overview.
- * @module config
- * @function
  * @return {object}
  */
 function getEnvironmentOverview() {
@@ -51,8 +52,6 @@ function getEnvironmentOverview() {
 
 /**
  * Shortcut to get config value.
- * @module config
- * @function
  * @param {string} key the key
  * @return {string} the value
  */
@@ -62,8 +61,6 @@ function get(key) {
 
 /**
  * Get the bool value from config, if yes, returns true.
- * @module config
- * @function
  * @param {string} key the key
  * @return {boolean} the bool value
  */
@@ -73,8 +70,6 @@ function getEnabled(key) {
 
 /**
  * Get the array value from config.
- * @module config
- * @function
  * @param {string} key the key
  * @param {string} [separator=,] the separator.
  * @return {string[]} the array value
@@ -88,8 +83,6 @@ function getSplited(key, separator=",") {
 
 /**
  * Get the value from config with error thrown.
- * @module config
- * @function
  * @param {string} key the key
  * @return {string} the expected value
  * @throws {Error} if value is undefined, throw an error
@@ -104,8 +97,6 @@ function getMust(key) {
 
 /**
  * Get the value from config with fallback.
- * @module config
- * @function
  * @param {string} key the key
  * @param {string} fallback the fallback value
  * @return {string} the expected value

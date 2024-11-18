@@ -1,11 +1,9 @@
 "use strict";
 // Redirect http to https.
 
-// Import isProduction
-const {isProduction} = require("../config");
-
-// Import StatusCodes
+// Import modules
 const {StatusCodes} = require("http-status-codes");
+const {isProduction} = require("../config");
 
 // Export (function)
 module.exports = (req, res, next) => {

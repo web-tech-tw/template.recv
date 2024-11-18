@@ -1,9 +1,10 @@
 "use strict";
 // Token utils for testing/debugging or developing.
 
-// Import config
+// Import modules
 const {isProduction} = require("../config");
 
+// Default fake user
 const DEFAULT_FAKE_USER = {
     _id: "67345206787c5d2b9be61c37",
     nickname: "The Fake User",
@@ -21,8 +22,6 @@ function newProfile() {
 
 /**
  * Issue token
- * @module test_token
- * @function
  * @param {string} user - The user to generate the token for.
  * @return {string}
  */
@@ -39,8 +38,6 @@ function issue(user) {
 
 /**
  * Validate token
- * @module test_token
- * @function
  * @param {string} token - The token to valid.
  * @return {object}
  */

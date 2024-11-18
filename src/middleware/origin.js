@@ -2,13 +2,9 @@
 // Check the header "Origin" in request is equal to CORS_ORIGIN,
 // if not, interrupt it.
 
-// Import config
-const {isProduction, getMust, getEnabled} = require("../config");
-
-// Import StatusCodes
+// Import modules
 const {StatusCodes} = require("http-status-codes");
-
-// Import isObjectPropExists
+const {isProduction, getMust, getEnabled} = require("../config");
 const {isObjectPropExists} = require("../utils/native");
 
 // Export (function)

@@ -1,22 +1,15 @@
 "use strict";
 // The solution to defense from brute-force attacks,
 
-// Import isProduction
-const {isProduction} = require("../config");
-
-// Import StatusCodes
+// Import modules
 const {StatusCodes} = require("http-status-codes");
-
-// Import useCache
+const {isProduction} = require("../config");
+const {express} = require("../init/express");
 const {useCache} = require("../init/cache");
-
-// Import getIPAddress
 const {getIPAddress} = require("../utils/visitor");
 
 /**
  * Get path key from request.
- * @module restrictor
- * @function
  * @param {object} req the request
  * @param {boolean} isParam is param mode
  * @return {string}
@@ -29,13 +22,18 @@ function getPathKey(req, isParam) {
     return pathArray.join(".");
 }
 
-// Export (function)
-// max is the maximum number of requests allowed every IP addresss.
-// ttl is the seconds to unblock the IP address if there no request comes.
-// if ttl set as 0, it will be blocked forever until the software restarted.
-// isParam is the flag to remove the last path from the key.
-// customForbiddenStatus is the custom status code
-// for forbidden request, optional.
+/**
+ * Construct a middleware handler for restricting the request.
+ * @module src/middleware/restrictor
+ * @param {number} max - The maximum number of requests allowed per IP address.
+ * @param {number} ttl - The time to live in seconds to unblock the IP address
+ * if no request comes. If set to 0, it will be blocked forever
+ * until the software is restarted.
+ * @param {boolean} isParam - The flag to remove the last path from the key.
+ * @param {number} [customForbiddenStatus] - The custom status code for
+ * forbidden requests, optional.
+ * @return {express.Handler} The middleware handler.
+ */
 module.exports = (max, ttl, isParam, customForbiddenStatus=null) =>
     (req, res, next) => {
         const pathKey = getPathKey(req, isParam);

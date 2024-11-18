@@ -5,8 +5,6 @@ const crypto = require("node:crypto");
 
 /**
  * Shortcut for hasOwnProperty with safe.
- * @module native
- * @function
  * @param {object} srcObject
  * @param {string} propName
  * @return {boolean}

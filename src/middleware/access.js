@@ -3,11 +3,9 @@
 // and interrupt if the requirement is not satisfied.
 // (for Sara only)
 
-// Import isProduction
-const {isProduction} = require("../config");
-
-// Import StatusCodes
+// Import modules
 const {StatusCodes} = require("http-status-codes");
+const {isProduction} = require("../config");
 
 // Export (function)
 // requiredRole can be string or null,

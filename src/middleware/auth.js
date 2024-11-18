@@ -4,16 +4,14 @@
 // To interrupt the request which without the request,
 // please use "access.js" middleware.
 
-// Import isProduction
+// Import modules
 const {isProduction} = require("../config");
-
-// Import isObjectPropExists
 const {isObjectPropExists} = require("../utils/native");
 
 const saraTokenAuth = require("../utils/sara_token");
 const testTokenAuth = require("../utils/test_token");
 
-// Import authMethods
+// Define auth methods
 const authMethods = {
     "SARA": saraTokenAuth.validate,
     "TEST": testTokenAuth.validate,

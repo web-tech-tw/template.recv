@@ -1,12 +1,14 @@
 "use strict";
 
-// Import config
-const {getMust, getSplited} = require("./config");
-
 // Import modules
 const fs = require("node:fs");
 const http = require("node:http");
 const https = require("node:https");
+
+const {
+    getMust,
+    getSplited,
+} = require("./config");
 
 /**
  * Setup protocol - http

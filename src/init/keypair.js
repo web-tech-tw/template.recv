@@ -1,12 +1,17 @@
 "use strict";
 // Reading curve keypair.
 
-// Import fs
+// Import constants
+const {
+    PUBLIC_KEY_FILENAME,
+} = require("./const");
+
+// Import modules
 const {readFileSync} = require("node:fs");
 
-// Import constant
-const constants = require("./const");
-
-// Export as useFunction
+/**
+ * Composable public key.
+ * @return {string}
+ */
 exports.usePublicKey = () =>
-    readFileSync(constants.PUBLIC_KEY_FILENAME);
+    readFileSync(PUBLIC_KEY_FILENAME);

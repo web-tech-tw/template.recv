@@ -1,13 +1,9 @@
 "use strict";
 
-// Import config
-const {getEnvironmentOverview} = require("../config");
-
 // Import modules
 const {StatusCodes} = require("http-status-codes");
-
-// Import useApp, express
 const {useApp, express} = require("../init/express");
+const {getEnvironmentOverview} = require("../config");
 
 const utilVisitor = require("../utils/visitor");
 const utilNative = require("../utils/native");

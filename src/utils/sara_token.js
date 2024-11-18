@@ -1,12 +1,11 @@
 "use strict";
 // Token utils of Sara.
 
-// Import config
+// Import modules
+const {StatusCodes} = require("http-status-codes");
 const {getMust, isProduction} = require("../config");
 
-// Import modules
 const axios = require("axios");
-const {StatusCodes} = require("http-status-codes");
 const {verify} = require("jsonwebtoken");
 
 const {useCache} = require("../init/cache");
@@ -33,8 +32,6 @@ const verifyOptions = {
 
 /**
  * Check if token is activated
- * @module sara_token
- * @function
  * @param {string} tokenId - The token id to check.
  * @return {Promise<boolean>}
  */
@@ -62,8 +59,6 @@ async function isActivated(tokenId) {
 
 /**
  * Validate token
- * @module sara_token
- * @function
  * @param {string} token - The token to valid.
  * @return {Promise<object>}
  */

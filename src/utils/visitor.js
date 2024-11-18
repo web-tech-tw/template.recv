@@ -9,8 +9,6 @@ const uaParser = require("ua-parser-js");
 
 /**
  * Get IP Address.
- * @module visitor
- * @function
  * @param {object} req the request
  * @return {string} the IP Address
  */
@@ -23,8 +21,6 @@ function getIPAddress(req) {
 
 /**
  * Get User-Agent.
- * @module visitor
- * @function
  * @param {object} req the request
  * @param {boolean} isShort return short code instead
  * @return {string} the User-Agent
