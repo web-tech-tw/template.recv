@@ -1,6 +1,6 @@
 FROM node:20-alpine
 
-ENV RUNTIME_ENV container
+ENV RUNTIME_ENV=container
 
 RUN adduser -u 3000 -D recv
 
