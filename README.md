@@ -2,14 +2,16 @@
 
 [網頁客戶端](https://github.com/web-tech-tw/template.inte) | 伺服器端
 
-
 一個功能齊全、為敏捷開發而生的 Node.js 專案範本。
+
+A batteries-included Node.js boilerplate built for rapid development.
 
 ---
 
 我們厭倦了每次開啟新專案，都要重新設定 Express、資料庫連線、身份驗證、測試環境、CORS、API 文件...？
 
 **Template RECV** 為我們解決了這些煩惱。
+
 這是一個「功能齊全 (batteries-included)」的專案範本，整合了現代後端服務所需的各種核心工具，讓您可以跳過繁瑣的初始設定，**專注於實現您的業務邏輯**。
 
 ## ✨ 設計理念
